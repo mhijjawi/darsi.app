@@ -6,6 +6,16 @@ interface DemoStageProps {
 
 export default function DemoStage({ demoType }: DemoStageProps) {
   switch (demoType) {
+    case 'vibration':
+      return <VibrationDemo />
+    case 'soundWave':
+      return <SoundWaveDemo />
+    case 'volume':
+      return <VolumeDemo />
+    case 'pitch':
+      return <PitchDemo />
+    case 'soundTravel':
+      return <SoundTravelDemo />
     case 'seeDemo':
       return <SeeDemoStage />
     case 'opaque':
@@ -438,6 +448,280 @@ function ColorDemoStage() {
         { color: '#6A994E', label: 'Green' },
         { color: '#4361EE', label: 'Blue' },
         { color: '#7B2FBE', label: 'Purple' },
+      ]} />
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════
+   VIBRATION — Guitar string vibrating
+═══════════════════════════════════════ */
+function VibrationDemo() {
+  return (
+    <div>
+      <div
+        className="rounded-[10px] border border-[#E2E8F0] p-6 flex items-center justify-center gap-8 flex-wrap"
+        style={{ background: '#EFF6FF' }}
+      >
+        {/* Guitar / string illustration */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="relative w-24 h-20 rounded-xl border-2 border-[#D97706] bg-[#FEF3C7] flex items-center justify-center overflow-hidden">
+            {/* Sound hole */}
+            <div className="w-8 h-8 rounded-full bg-[#92400E]/30" />
+            {/* Vibrating strings */}
+            {[0, 1, 2].map(i => (
+              <div
+                key={i}
+                className="absolute h-[2px] bg-[#D97706]"
+                style={{
+                  left: 0, right: 0,
+                  top: `${35 + i * 15}%`,
+                  animation: `shake 0.${2 + i}s ease-in-out infinite`,
+                }}
+              />
+            ))}
+          </div>
+          <span className="text-[0.72rem] font-extrabold text-text-dim">🎸 Vibrating strings</span>
+        </div>
+
+        {/* Arrow */}
+        <div className="flex flex-col items-center gap-1">
+          <div className="text-2xl">〰️</div>
+          <span className="text-[0.65rem] font-extrabold text-text-dimmer">vibrations</span>
+        </div>
+
+        {/* Sound waves */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex gap-1">
+            {[1, 0.7, 0.5, 0.3].map((opacity, i) => (
+              <div
+                key={i}
+                className="w-1 rounded-full bg-blue animate-beamPulse"
+                style={{
+                  height: 20 + i * 10,
+                  opacity,
+                  animationDelay: `${i * 0.2}s`,
+                }}
+              />
+            ))}
+          </div>
+          <span className="text-[0.72rem] font-extrabold text-text-dim">🔊 Sound!</span>
+        </div>
+      </div>
+
+      <Legend items={[
+        { color: '#D97706', label: 'Vibrating object' },
+        { color: '#2563EB', label: 'Sound waves created' },
+      ]} />
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════
+   SOUND WAVE — Speaker → air → ear
+═══════════════════════════════════════ */
+function SoundWaveDemo() {
+  return (
+    <div>
+      <div
+        className="rounded-[10px] border border-[#E2E8F0] p-6"
+        style={{ background: '#F0FDFA' }}
+      >
+        <div className="flex items-center justify-around gap-3 flex-wrap">
+          {/* Speaker */}
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[2.2rem]">📢</span>
+            <span className="text-[0.72rem] font-extrabold text-text-dim text-center">Speaker<br/>(vibrates)</span>
+          </div>
+
+          {/* Sound waves expanding */}
+          <div className="flex items-center gap-1">
+            {[1, 2, 3, 4].map(i => (
+              <div
+                key={i}
+                className="rounded-full border-2 border-teal/40 animate-beamPulse"
+                style={{
+                  width: 12 + i * 8,
+                  height: 12 + i * 8,
+                  animationDelay: `${i * 0.3}s`,
+                  opacity: 1 - i * 0.2,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Air molecules */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex gap-1 flex-wrap justify-center w-16">
+              {Array.from({ length: 9 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="w-3 h-3 rounded-full bg-teal/30 animate-beamPulse"
+                  style={{ animationDelay: `${i * 0.15}s` }}
+                />
+              ))}
+            </div>
+            <span className="text-[0.72rem] font-extrabold text-text-dim text-center">Air molecules<br/>(bump each other)</span>
+          </div>
+
+          {/* Ear */}
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[2.2rem]">👂</span>
+            <span className="text-[0.72rem] font-extrabold text-text-dim text-center">Your ear<br/>(you hear!)</span>
+          </div>
+        </div>
+      </div>
+
+      <Legend items={[
+        { color: '#0891B2', label: 'Sound waves' },
+        { color: '#99F6E4', label: 'Air molecules vibrating' },
+      ]} />
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════
+   VOLUME — Loud vs soft comparison
+═══════════════════════════════════════ */
+function VolumeDemo() {
+  return (
+    <div>
+      <div
+        className="rounded-[10px] border border-[#E2E8F0] p-5"
+        style={{ background: '#FFF7ED' }}
+      >
+        <div className="grid grid-cols-2 gap-4">
+          {/* Loud */}
+          <div className="text-center p-4 rounded-xl bg-white border border-[#E2E8F0]">
+            <div className="text-[2.5rem] mb-2">📢</div>
+            <div className="font-extrabold text-coral text-sm mb-2">LOUD</div>
+            <div className="flex items-end justify-center gap-[3px] h-10 mb-2">
+              {[30, 38, 26, 40, 22, 36, 28].map((h, i) => (
+                <div
+                  key={i}
+                  className="w-[6px] rounded-full bg-coral animate-beamPulse"
+                  style={{ height: h, animationDelay: `${i * 0.1}s` }}
+                />
+              ))}
+            </div>
+            <p className="text-[0.72rem] text-text-dim font-semibold">Strong vibrations<br/>Lots of energy</p>
+          </div>
+
+          {/* Soft */}
+          <div className="text-center p-4 rounded-xl bg-white border border-[#E2E8F0]">
+            <div className="text-[2.5rem] mb-2">🤫</div>
+            <div className="font-extrabold text-teal text-sm mb-2">SOFT</div>
+            <div className="flex items-end justify-center gap-[3px] h-10 mb-2">
+              {[8, 12, 6, 10, 7, 11, 9].map((h, i) => (
+                <div
+                  key={i}
+                  className="w-[6px] rounded-full bg-teal animate-beamPulse"
+                  style={{ height: h, animationDelay: `${i * 0.1}s` }}
+                />
+              ))}
+            </div>
+            <p className="text-[0.72rem] text-text-dim font-semibold">Weak vibrations<br/>Little energy</p>
+          </div>
+        </div>
+      </div>
+
+      <Legend items={[
+        { color: '#EA580C', label: 'Loud — big wave bars' },
+        { color: '#0891B2', label: 'Soft — small wave bars' },
+      ]} />
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════
+   PITCH — High vs low comparison
+═══════════════════════════════════════ */
+function PitchDemo() {
+  return (
+    <div>
+      <div
+        className="rounded-[10px] border border-[#E2E8F0] p-5"
+        style={{ background: '#F5F3FF' }}
+      >
+        <div className="grid grid-cols-2 gap-4">
+          {/* High pitch */}
+          <div className="text-center p-4 rounded-xl bg-white border border-[#E2E8F0]">
+            <div className="text-[2.5rem] mb-2">🐦</div>
+            <div className="font-extrabold text-purple text-sm mb-2">HIGH PITCH</div>
+            {/* Fast tight waves */}
+            <svg viewBox="0 0 120 30" className="w-full h-8 mb-2">
+              <path
+                d="M0,15 Q5,0 10,15 T20,15 T30,15 T40,15 T50,15 T60,15 T70,15 T80,15 T90,15 T100,15 T110,15 T120,15"
+                fill="none"
+                stroke="#7C3AED"
+                strokeWidth="2.5"
+                className="animate-beamPulse"
+              />
+            </svg>
+            <p className="text-[0.72rem] text-text-dim font-semibold">Small objects<br/>Vibrate FAST</p>
+          </div>
+
+          {/* Low pitch */}
+          <div className="text-center p-4 rounded-xl bg-white border border-[#E2E8F0]">
+            <div className="text-[2.5rem] mb-2">🦁</div>
+            <div className="font-extrabold text-yellow text-sm mb-2">LOW PITCH</div>
+            {/* Slow wide waves */}
+            <svg viewBox="0 0 120 30" className="w-full h-8 mb-2">
+              <path
+                d="M0,15 Q15,0 30,15 T60,15 T90,15 T120,15"
+                fill="none"
+                stroke="#D97706"
+                strokeWidth="3"
+                className="animate-beamPulse"
+              />
+            </svg>
+            <p className="text-[0.72rem] text-text-dim font-semibold">Large objects<br/>Vibrate SLOWLY</p>
+          </div>
+        </div>
+      </div>
+
+      <Legend items={[
+        { color: '#7C3AED', label: 'High pitch — fast, tight waves' },
+        { color: '#D97706', label: 'Low pitch — slow, wide waves' },
+      ]} />
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════
+   SOUND TRAVEL — Through solids/liquids/gases
+═══════════════════════════════════════ */
+function SoundTravelDemo() {
+  return (
+    <div>
+      <div
+        className="rounded-[10px] border border-[#E2E8F0] p-5"
+        style={{ background: '#FFFBEB' }}
+      >
+        <div className="grid grid-cols-3 max-md:grid-cols-1 gap-3">
+          {[
+            { emoji: '🧱', label: 'Through a Solid', bg: '#FEF3C7', border: '#D97706', desc: 'e.g. Knock on a door', icon: '🚪' },
+            { emoji: '💧', label: 'Through a Liquid', bg: '#CFFAFE', border: '#0891B2', desc: 'e.g. Whales underwater', icon: '🐋' },
+            { emoji: '💨', label: 'Through a Gas', bg: '#EFF6FF', border: '#2563EB', desc: 'e.g. Talking through air', icon: '🗣️' },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="text-center p-4 rounded-xl border-2"
+              style={{ background: item.bg, borderColor: item.border }}
+            >
+              <div className="text-[2rem] mb-1">{item.emoji}</div>
+              <div className="font-extrabold text-[0.82rem] text-text mb-1">{item.label}</div>
+              <div className="text-[1.5rem] mb-1">{item.icon}</div>
+              <p className="text-[0.72rem] text-text-dim font-semibold">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Legend items={[
+        { color: '#D97706', label: 'Solids' },
+        { color: '#0891B2', label: 'Liquids' },
+        { color: '#2563EB', label: 'Gases' },
       ]} />
     </div>
   )

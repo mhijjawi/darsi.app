@@ -19,7 +19,7 @@ export interface Concept {
   emoji: string
   color: 'blue' | 'grey' | 'teal' | 'purple' | 'yellow' | 'coral'
   explanation: string
-  demoType: 'seeDemo' | 'opaque' | 'transparent' | 'translucent' | 'shadow' | 'color' | 'sunSafety' | 'none'
+  demoType: 'seeDemo' | 'opaque' | 'transparent' | 'translucent' | 'shadow' | 'color' | 'sunSafety' | 'vibration' | 'soundWave' | 'volume' | 'pitch' | 'soundTravel' | 'none'
   examples: ExampleItem[]
   facts?: FactItem[]
   sunSafetyCards?: SunSafetyCard[]

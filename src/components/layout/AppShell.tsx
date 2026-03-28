@@ -10,6 +10,9 @@ const BREADCRUMBS: Record<string, string> = {
   '/science/chapter-4-2/learn': 'Chapter 4.2 › <strong>Learn & Study Guide</strong>',
   '/science/chapter-4-2/quiz': 'Chapter 4.2 › <strong>Quiz Time</strong>',
   '/science/chapter-4-2/worksheet': 'Chapter 4.2 › <strong>Printable Worksheet</strong>',
+  '/science/chapter-4-3/learn': 'Chapter 4.3 › <strong>Learn & Study Guide</strong>',
+  '/science/chapter-4-3/quiz': 'Chapter 4.3 › <strong>Quiz Time</strong>',
+  '/science/chapter-4-3/worksheet': 'Chapter 4.3 › <strong>Printable Worksheet</strong>',
 }
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
