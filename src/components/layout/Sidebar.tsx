@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { SUBJECTS } from '@/lib/chapters'
+import LegoCharacter from '@/components/characters/LegoCharacter'
 
 interface SidebarProps {
   open: boolean
@@ -136,8 +137,9 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         </nav>
 
         {/* Footer */}
-        <div className="px-[18px] py-3 border-t border-border text-[0.75rem] text-text-dimmer font-semibold">
-          Grade 3 · <span className="text-coral">Laith&apos;s World</span>
+        <div className="px-[18px] py-3 border-t border-border text-[0.75rem] text-text-dimmer font-semibold flex items-center gap-2">
+          <LegoCharacter variant="robot" size="sm" />
+          <span>Grade 3 · <span className="text-coral">Laith&apos;s World</span></span>
         </div>
       </aside>
     </>

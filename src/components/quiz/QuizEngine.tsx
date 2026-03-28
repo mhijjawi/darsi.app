@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Question } from '@/types'
 import QuestionCard from './QuestionCard'
 import ResultScreen from './ResultScreen'
+import LegoCharacter from '@/components/characters/LegoCharacter'
 
 interface QuizEngineProps {
   questions: Question[]
@@ -84,12 +85,15 @@ export default function QuizEngine({ questions, onComplete }: QuizEngineProps) {
   return (
     <div>
       {/* Quiz header */}
-      <div className="bg-gradient-to-r from-green to-teal rounded-[16px] p-6 mb-6 text-white">
+      <div className="bg-gradient-to-r from-green to-teal rounded-[16px] p-6 mb-6 text-white relative overflow-hidden">
+        <div className="absolute bottom-2 right-4 opacity-90">
+          <LegoCharacter variant="ninja" size="lg" />
+        </div>
         <h2 className="text-2xl font-extrabold font-display mb-1">
           🧪 Quiz Time!
         </h2>
         <p className="text-green-100 font-body text-sm opacity-90">
-          {total} questions to test what you learned
+          {total} questions to test what you learned — you got this!
         </p>
       </div>
 
