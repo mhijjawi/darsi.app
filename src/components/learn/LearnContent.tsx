@@ -164,7 +164,7 @@ export default function LearnContent() {
         <LegoCharacter variant="coral" size="md" />
       </div>
       <Link
-        href="/darsi.app/science/chapter-4-2/quiz/"
+        href="/science/chapter-4-2/quiz/"
         className="block w-full bg-gradient-to-br from-green to-[#2EA043] rounded-sm py-3.5 font-display text-[1.1rem] font-extrabold text-white text-center cursor-pointer shadow-glow-green hover:-translate-y-0.5 transition-transform no-underline"
       >
         Ready? Take the Quiz! 🧠 →

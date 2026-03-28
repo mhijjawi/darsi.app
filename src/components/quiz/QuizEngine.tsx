@@ -157,7 +157,7 @@ export default function QuizEngine({ questions, onComplete }: QuizEngineProps) {
           total={total}
           results={results}
           onRetry={handleRetry}
-          onReview={() => router.push('/darsi.app/science/chapter-4-2/learn/')}
+          onReview={() => router.push('/science/chapter-4-2/learn/')}
         />
       )}
     </div>
