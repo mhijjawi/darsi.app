@@ -21,7 +21,7 @@ export default function LearnContent() {
           <LegoCharacter variant="scientist" size="lg" />
         </div>
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-1.5 bg-[rgba(88,166,255,0.15)] border border-[rgba(88,166,255,0.3)] rounded-[20px] px-3.5 py-1 text-[0.75rem] font-extrabold text-blue tracking-[0.5px] mb-3.5">
+          <div className="inline-flex items-center gap-1.5 bg-[rgba(255,255,255,0.2)] border border-[rgba(255,255,255,0.35)] rounded-[20px] px-3.5 py-1 text-[0.75rem] font-extrabold text-white tracking-[0.5px] mb-3.5">
             📚 Chapter 4.2
           </div>
           <h1 className="font-display text-[2.4rem] font-extrabold text-white mb-2 leading-tight">

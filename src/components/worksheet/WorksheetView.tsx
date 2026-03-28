@@ -14,32 +14,90 @@ export default function WorksheetView({ worksheet, chapterTitle }: WorksheetView
   const worksheetRef = useRef<HTMLDivElement>(null)
 
   function printWorksheet() {
-    const el = worksheetRef.current
-    if (!el) return
-
-    const html = el.outerHTML
+    const ws = worksheet
+    const tp = totalPoints
     const win = window.open('', '_blank')
     if (!win) return
 
     win.document.write(`<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${chapterTitle} — Worksheet</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Nunito', sans-serif; color: #1E293B; padding: 0; }
-    @media print {
-      body { padding: 0; }
-      .no-print { display: none !important; }
-    }
-  </style>
+<meta charset="UTF-8">
+<title>${chapterTitle} — Worksheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; color: #212121; max-width: 750px; margin: 0 auto; padding: 0; }
+  .ws-header { background: #1A237E; padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; }
+  .ws-header h3 { font-family: 'Baloo 2', cursive; font-size: 1.3rem; color: white; margin: 0; }
+  .ws-header span { font-size: 0.8rem; color: #FFD54F; font-weight: 800; }
+  .ws-name-row { display: flex; gap: 20px; padding: 14px 28px; background: #F5F5F5; border-bottom: 2px solid #E0E0E0; font-size: 0.9rem; font-weight: 700; color: #37474F; }
+  .ws-name-row span { border-bottom: 2px solid #90A4AE; padding-bottom: 2px; flex: 1; }
+  .ws-part { padding: 20px 28px; border-bottom: 1px solid #EEEEEE; }
+  .ws-part-title { font-weight: 900; font-size: 0.9rem; color: #1A237E; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; padding: 6px 12px; background: #E3F2FD; border-radius: 6px; display: inline-block; }
+  .ws-q { font-size: 0.88rem; font-weight: 700; color: #37474F; margin-bottom: 8px; line-height: 1.5; padding: 6px 0; border-bottom: 1px dotted #E0E0E0; }
+  .ws-q:last-child { border-bottom: none; }
+  .ws-blank { display: inline-block; width: 100px; border-bottom: 2px solid #90A4AE; margin: 0 4px; }
+  .ws-tf { color: #1976D2; font-weight: 900; }
+  .word-bank { background: #FFF8E1; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.82rem; font-weight: 800; color: #E65100; }
+  .obj-bank { background: #E3F2FD; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.82rem; font-weight: 800; color: #01579B; }
+  .classify-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .classify-box { border-radius: 8px; padding: 10px; min-height: 80px; }
+  .classify-box h5 { font-weight: 900; font-size: 0.8rem; margin-bottom: 6px; text-align: center; }
+  .classify-line { font-size: 0.8rem; color: #90A4AE; margin-top: 8px; }
+  .answer-line { border-bottom: 1px solid #E0E0E0; margin-top: 16px; }
+  .ws-footer { background: #FFF8E1; padding: 12px 28px; font-size: 0.82rem; font-weight: 800; color: #E65100; text-align: center; }
+  @media print {
+    body { padding: 0; margin: 0; }
+    .ws-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .ws-part-title { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .word-bank, .obj-bank, .ws-footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .classify-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
 </head>
 <body onload="window.print()">
-  ${html}
+  <div style="background:white; overflow:hidden; box-shadow:none;">
+    <div class="ws-header">
+      <h3>${chapterTitle}</h3>
+      <span>Grade 3 Science</span>
+    </div>
+    <div class="ws-name-row">
+      <span>Name: _____________________________</span>
+      <span>Date: ______________</span>
+      <span>Score: _____ / ${tp}</span>
+    </div>
+    <div class="ws-part">
+      <div class="ws-part-title">Part 1 — Fill in the Blanks (${ws.fillBlanks.length} pts)</div>
+      <div class="word-bank">Word Bank: &nbsp; ${ws.wordBank.join(' &nbsp;|&nbsp; ')}</div>
+      ${ws.fillBlanks.map(fb => `<div class="ws-q">${fb.num}. ${fb.before} <span class="ws-blank">&nbsp;</span> ${fb.after}</div>`).join('')}
+    </div>
+    <div class="ws-part">
+      <div class="ws-part-title">Part 2 — Classify the Objects (${ws.classify.objects.length} pts)</div>
+      <div class="obj-bank">Objects: &nbsp; ${ws.classify.objects.join(' &nbsp;|&nbsp; ')}</div>
+      <div class="classify-grid">
+        ${ws.classify.categories.map(cat => `
+          <div class="classify-box" style="border:2px solid ${cat.borderColor}">
+            <h5 style="color:${cat.titleColor}">${cat.title}</h5>
+            ${Array.from({length: cat.count}).map((_, j) => `<div class="classify-line">${j+1}. ________________</div>`).join('')}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="ws-part">
+      <div class="ws-part-title">Part 3 — True or False (${ws.trueOrFalse.length} pts)</div>
+      ${ws.trueOrFalse.map(tf => `<div class="ws-q">${tf.num}. ${tf.statement} &nbsp; <span class="ws-tf">True / False</span></div>`).join('')}
+    </div>
+    <div class="ws-part">
+      <div class="ws-part-title">Part 4 — Short Answer (${ws.shortAnswer.reduce((s: number, q: {points: number}) => s + q.points, 0)} pts)</div>
+      ${ws.shortAnswer.map(sa => `
+        <div class="ws-q" style="border-bottom:none">${sa.num}. ${sa.question} (${sa.points} ${sa.points === 1 ? 'pt' : 'pts'})<br>
+          ${Array.from({length: sa.lines}).map(() => '<div class="answer-line"></div>').join('')}
+        </div>
+      `).join('')}
+    </div>
+    <div class="ws-footer">⭐ Keep going Laith — you are doing amazing! Science Superstar! 🚀</div>
+  </div>
 </body>
 </html>`)
     win.document.close()
