@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Laith's Science World 🚀</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════════════ */
+:root {
+  --bg: #F4F6FB;
+  --sidebar-w: 260px;
+  --sidebar-bg: #FFFFFF;
+  --sidebar-border: #E2E8F0;
+  --card: #FFFFFF;
+  --card2: #F8FAFC;
+  --border: #E2E8F0;
+
+  --blue: #2563EB;
+  --blue-dim: #DBEAFE;
+  --green: #16A34A;
+  --green-dim: #DCFCE7;
+  --yellow: #D97706;
+  --yellow-dim: #FEF3C7;
+  --coral: #EA580C;
+  --coral-dim: #FFEDD5;
+  --purple: #7C3AED;
+  --purple-dim: #EDE9FE;
+  --teal: #0891B2;
+  --teal-dim: #CFFAFE;
+  --pink: #DB2777;
+
+  --text: #1E293B;
+  --text-dim: #64748B;
+  --text-dimmer: #94A3B8;
+  --white: #FFFFFF;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --glow-blue: 0 0 20px rgba(37,99,235,0.15);
+  --glow-green: 0 0 20px rgba(22,163,74,0.15);
+  --glow-yellow: 0 0 20px rgba(217,119,6,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════ */
+.app-shell {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+.sidebar-logo .logo-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sidebar-logo .logo-sub {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-weight: 600;
+  margin-top: 2px;
+  padding-left: 28px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.chapter-group { margin-bottom: 4px; }
+
+.chapter-label {
+  padding: 8px 18px 4px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dimmer);
+}
+
+.chapter-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.15s;
+  user-select: none;
+}
+.chapter-header:hover { background: rgba(0,0,0,0.03); }
+.chapter-header.active { background: rgba(37,99,235,0.06); }
+.ch-icon {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.ch-title { font-size: 0.85rem; font-weight: 700; color: var(--text); flex: 1; line-height: 1.3; }
+.ch-arrow {
+  font-size: 0.65rem;
+  color: var(--text-dimmer);
+  transition: transform 0.2s;
+}
+.chapter-header.open .ch-arrow { transform: rotate(90deg); }
+
+.chapter-items {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.chapter-items.open { max-height: 200px; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px 8px 44px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+  margin-left: 0;
+}
+.nav-item:hover { color: var(--text); background: rgba(0,0,0,0.03); }
+.nav-item.active {
+  color: var(--blue);
+  border-left-color: var(--blue);
+  background: var(--blue-dim);
+}
+.nav-item .ni-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+.sidebar-footer {
+  padding: 12px 18px;
+  border-top: 1px solid var(--sidebar-border);
+  font-size: 0.75rem;
+  color: var(--text-dimmer);
+  font-weight: 600;
+}
+.sidebar-footer span { color: var(--coral); }
+
+/* ── MAIN CONTENT ── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--sidebar-border);
+  background: var(--sidebar-bg);
+  flex-shrink: 0;
+}
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px;
+}
+.topbar-breadcrumb {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+.topbar-breadcrumb strong { color: var(--text); }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.stars-badge {
+  background: var(--yellow-dim);
+  color: var(--yellow);
+  border: 1px solid rgba(240,208,96,0.3);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 32px 28px;
+  scroll-behavior: smooth;
+}
+.content-area::-webkit-scrollbar { width: 6px; }
+.content-area::-webkit-scrollbar-track { background: transparent; }
+.content-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ── SECTION PANELS ── */
+.section-panel { display: none; }
+.section-panel.active { display: block; animation: fadeUp 0.35s ease; }
+@keyframes fadeUp { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+
+/* ═══════════════════════════════════════════════
+   CHAPTER HERO
+═══════════════════════════════════════════════ */
+.ch-hero {
+  border-radius: var(--radius);
+  padding: 32px 36px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.ch-hero.light-theme {
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 60%, #3B82F6 100%);
+  border: 1px solid rgba(37,99,235,0.2);
+}
+.ch-hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(88,166,255,0.08);
+}
+.ch-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 30%;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(88,166,255,0.05);
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(88,166,255,0.15);
+  border: 1px solid rgba(88,166,255,0.3);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--blue);
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+.ch-hero h1 {
+  font-family: 'Baloo 2', cursive;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 8px;
+  line-height: 1.2;
+  position: relative; z-index: 1;
+}
+.ch-hero p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+  position: relative; z-index: 1;
+  max-width: 520px;
+}
+.hero-objectives {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  position: relative; z-index: 1;
+}
+.obj-chip {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.95);
+}
+
+/* ═══════════════════════════════════════════════
+   LEARN SECTION — CONCEPT CARDS
+═══════════════════════════════════════════════ */
+.learn-section-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.learn-section-title .lst-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.concept-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.concept-card:hover { box-shadow: var(--shadow); }
+
+.concept-card-header {
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.cc-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.cc-title { font-family: 'Baloo 2', cursive; font-size: 1.3rem; font-weight: 800; }
+.cc-subtitle { font-size: 0.82rem; color: var(--text-dim); font-weight: 600; margin-top: 1px; }
+
+.concept-card-body {
+  padding: 22px;
+}
+
+.concept-explain {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.concept-explain strong { color: var(--blue); }
+
+/* ═══════════════════════════════════════════════
+   LIGHT ANIMATIONS & ILLUSTRATIONS
+═══════════════════════════════════════════════ */
+.demo-stage {
+  background: #EFF6FF;
+  border-radius: var(--radius-sm);
+  padding: 28px 20px;
+  margin: 16px 0;
+  position: relative;
+  overflow: hidden;
+  min-height: 140px;
+  border: 1px solid var(--border);
+}
+
+/* LIGHT SOURCE */
+.light-source {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFE566 0%, #FFB300 60%, #FF6B00 100%);
+  box-shadow: 0 0 20px #FFB300, 0 0 40px rgba(255,179,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  z-index: 10;
+  animation: pulse-src 2s ease-in-out infinite;
+}
+@keyframes pulse-src {
+  0%, 100% { box-shadow: 0 0 20px #FFB300, 0 0 40px rgba(255,179,0,0.4); }
+  50% { box-shadow: 0 0 30px #FFB300, 0 0 60px rgba(255,179,0,0.6); }
+}
+
+/* OPAQUE DEMO */
+.opaque-demo .beam-container {
+  position: absolute;
+  left: 60px; top: 50%;
+  transform: translateY(-50%);
+  width: 120px; height: 28px;
+}
+.opaque-demo .beam {
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, rgba(255,200,0,0.9), rgba(255,200,0,0.3));
+  clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 80%);
+  animation: beam-pulse 2s ease-in-out infinite;
+}
+@keyframes beam-pulse { 0%,100%{opacity:0.8} 50%{opacity:1} }
+
+.opaque-demo .wall {
+  position: absolute;
+  left: 180px; top: 50%;
+  transform: translateY(-50%);
+  width: 22px; height: 90px;
+  background: linear-gradient(180deg, #475569, #334155);
+  border-radius: 4px;
+  border: 2px solid #64748B;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+.opaque-demo .wall-label {
+  position: absolute;
+  left: 178px; top: calc(50% + 52px);
+  font-size: 0.65rem; font-weight: 800; color: #90A4AE;
+  white-space: nowrap;
+  transform: translateX(-6px);
+}
+
+.opaque-demo .shadow-zone {
+  position: absolute;
+  left: 202px; top: 50%;
+  transform: translateY(-50%);
+  width: 100px; height: 90px;
+  background: linear-gradient(90deg, rgba(71,85,105,0.25), transparent);
+  border-radius: 0 8px 8px 0;
+  animation: shadow-breathe 3s ease-in-out infinite;
+}
+@keyframes shadow-breathe { 0%,100%{opacity:0.9} 50%{opacity:0.7} }
+.opaque-demo .shadow-label {
+  position: absolute;
+  right: 20px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.72rem; font-weight: 800; color: #546E7A;
+  text-align: center;
+}
+.opaque-demo .blocked-x {
+  position: absolute;
+  left: 305px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: #FF5252;
+  animation: blink 1.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* TRANSPARENT DEMO */
+.transparent-demo .beam-full {
+  position: absolute;
+  left: 60px; top: 50%;
+  transform: translateY(-50%);
+  width: 280px; height: 28px;
+  background: linear-gradient(90deg,
+    rgba(255,220,0,0.9) 0%,
+    rgba(255,220,0,0.6) 30%,
+    rgba(100,200,255,0.7) 60%,
+    rgba(100,200,255,0.5) 100%);
+  clip-path: polygon(0 20%, 100% 10%, 100% 90%, 0 80%);
+  animation: beam-full-pulse 2s ease-in-out infinite;
+}
+@keyframes beam-full-pulse { 0%,100%{opacity:0.85} 50%{opacity:1} }
+
+.transparent-demo .glass-panel {
+  position: absolute;
+  left: 178px; top: 50%;
+  transform: translateY(-50%);
+  width: 18px; height: 90px;
+  background: linear-gradient(180deg,
+    rgba(100,200,255,0.15) 0%,
+    rgba(150,220,255,0.25) 50%,
+    rgba(100,200,255,0.15) 100%);
+  border: 2px solid rgba(100,200,255,0.5);
+  border-radius: 4px;
+  box-shadow: 0 0 16px rgba(100,200,255,0.3), inset 0 0 10px rgba(255,255,255,0.05);
+  animation: glass-shimmer 3s ease-in-out infinite;
+}
+@keyframes glass-shimmer {
+  0%,100% { border-color: rgba(100,200,255,0.4); box-shadow: 0 0 16px rgba(100,200,255,0.3); }
+  50% { border-color: rgba(150,220,255,0.8); box-shadow: 0 0 24px rgba(100,200,255,0.5); }
+}
+.transparent-demo .glass-label {
+  position: absolute;
+  left: 163px; top: calc(50% + 52px);
+  font-size: 0.65rem; font-weight: 800; color: #4FC3F7;
+  white-space: nowrap;
+}
+
+.transparent-demo .check {
+  position: absolute;
+  right: 20px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  animation: check-pop 1.5s ease-in-out infinite;
+}
+@keyframes check-pop { 0%,100%{transform: translateY(-50%) scale(1)} 50%{transform:translateY(-50%) scale(1.2)} }
+
+/* TRANSLUCENT DEMO */
+.translucent-demo .beam-partial {
+  position: absolute;
+  left: 60px; top: 50%;
+  transform: translateY(-50%);
+  width: 115px; height: 28px;
+  background: linear-gradient(90deg, rgba(255,220,0,0.9), rgba(255,220,0,0.5));
+  clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 80%);
+  animation: beam-pulse 2s ease-in-out infinite;
+}
+.translucent-demo .frosted-panel {
+  position: absolute;
+  left: 178px; top: 50%;
+  transform: translateY(-50%);
+  width: 20px; height: 90px;
+  background: linear-gradient(180deg,
+    rgba(188,140,255,0.2) 0%,
+    rgba(188,140,255,0.35) 50%,
+    rgba(188,140,255,0.2) 100%);
+  border: 2px solid rgba(188,140,255,0.5);
+  border-radius: 4px;
+  box-shadow: 0 0 16px rgba(188,140,255,0.3);
+  backdrop-filter: blur(4px);
+}
+.translucent-demo .frosted-label {
+  position: absolute;
+  left: 162px; top: calc(50% + 52px);
+  font-size: 0.65rem; font-weight: 800; color: #BC8CFF;
+  white-space: nowrap;
+}
+
+.translucent-demo .beam-weak {
+  position: absolute;
+  left: 198px; top: 50%;
+  transform: translateY(-50%);
+  width: 100px; height: 16px;
+  background: linear-gradient(90deg, rgba(188,140,255,0.5), transparent);
+  clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 90%);
+  animation: beam-pulse 2s ease-in-out infinite 0.5s;
+}
+.translucent-demo .blurry-label {
+  position: absolute;
+  right: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.72rem; font-weight: 800; color: #BC8CFF;
+  text-align: center;
+  filter: blur(0.8px);
+  opacity: 0.7;
+}
+
+/* Demo legend */
+.demo-legend {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.legend-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════
+   HOW WE SEE ANIMATION
+═══════════════════════════════════════════════ */
+.see-demo {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 24px 20px;
+  background: #EFF6FF;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  margin: 16px 0;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.see-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.see-icon { font-size: 2.2rem; }
+.see-label { font-size: 0.72rem; font-weight: 800; color: var(--text-dim); text-align: center; }
+
+.see-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.arrow-beam {
+  height: 4px;
+  background: linear-gradient(90deg, #FFB300, #FF6B00);
+  border-radius: 4px;
+  animation: grow-beam 2s ease-in-out infinite;
+}
+.arrow-beam.reflect {
+  background: linear-gradient(90deg, #58A6FF, #3FB950);
+  animation-delay: 1s;
+}
+@keyframes grow-beam { 0%,100%{width:40px;opacity:0.6} 50%{width:60px;opacity:1} }
+.arrow-label { font-size: 0.65rem; font-weight: 800; color: var(--text-dimmer); white-space: nowrap; }
+
+/* ═══════════════════════════════════════════════
+   SHADOW DEMO
+═══════════════════════════════════════════════ */
+.shadow-demo-scene {
+  position: relative;
+  background: #FFF7ED;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin: 16px 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  height: 160px;
+  overflow: hidden;
+}
+.scene-sun {
+  position: absolute;
+  top: 20px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 16px #FFB300);
+  animation: pulse-src 3s ease-in-out infinite;
+}
+.scene-person {
+  font-size: 3rem;
+  position: relative;
+  z-index: 2;
+  animation: person-sway 4s ease-in-out infinite;
+}
+@keyframes person-sway { 0%,100%{transform:rotate(-1deg)} 50%{transform:rotate(1deg)} }
+.scene-shadow {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  width: 20px; height: 60px;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  transform-origin: bottom center;
+  transform: translateX(-50%) skewX(20deg) scaleX(3);
+  border-radius: 50% 50% 0 0;
+  filter: blur(4px);
+  animation: shadow-shift 4s ease-in-out infinite;
+}
+@keyframes shadow-shift { 0%,100%{transform:translateX(-50%) skewX(20deg) scaleX(3)} 50%{transform:translateX(-50%) skewX(15deg) scaleX(2.5)} }
+.scene-floor {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 18px;
+  background: linear-gradient(180deg, #D1FAE5, #A7F3D0);
+  border-top: 1px solid #6EE7B7;
+}
+
+/* ═══════════════════════════════════════════════
+   COLOR DEMO
+═══════════════════════════════════════════════ */
+.color-demo {
+  background: #F5F3FF;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  padding: 24px;
+  margin: 16px 0;
+}
+.prism-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.white-beam-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.wb-ray {
+  width: 60px; height: 6px;
+  background: linear-gradient(90deg, rgba(100,100,120,0.5), rgba(100,100,120,0.15));
+  border-radius: 4px;
+  animation: beam-pulse 2s ease-in-out infinite;
+}
+.prism-shape {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 16px rgba(150,150,255,0.4));
+  animation: prism-glow 3s ease-in-out infinite;
+}
+@keyframes prism-glow {
+  0%,100%{filter:drop-shadow(0 0 16px rgba(150,150,255,0.4))}
+  50%{filter:drop-shadow(0 0 28px rgba(150,150,255,0.7))}
+}
+.rainbow-out {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rainbow-ray {
+  height: 5px; border-radius: 4px;
+  animation: beam-pulse 2s ease-in-out infinite;
+}
+.r1{background:linear-gradient(90deg,#FF595E,transparent);width:70px;animation-delay:0s}
+.r2{background:linear-gradient(90deg,#FF924C,transparent);width:80px;animation-delay:0.1s}
+.r3{background:linear-gradient(90deg,#FFCA3A,transparent);width:90px;animation-delay:0.2s}
+.r4{background:linear-gradient(90deg,#6A994E,transparent);width:80px;animation-delay:0.3s}
+.r5{background:linear-gradient(90deg,#4361EE,transparent);width:70px;animation-delay:0.4s}
+.r6{background:linear-gradient(90deg,#7B2FBE,transparent);width:60px;animation-delay:0.5s}
+
+.fruit-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.fruit-card {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  text-align: center;
+  flex: 1; min-width: 120px;
+}
+.fruit-card .f-icon { font-size: 2rem; margin-bottom: 6px; }
+.fruit-card .f-name { font-weight: 800; font-size: 0.85rem; color: var(--text); margin-bottom: 4px; }
+.fruit-card .f-desc { font-size: 0.72rem; color: var(--text-dim); line-height: 1.4; font-weight: 600; }
+.f-tag {
+  display: inline-block;
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+/* ═══════════════════════════════════════════════
+   SUN SAFETY SECTION
+═══════════════════════════════════════════════ */
+.sun-safety-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 16px 0;
+}
+.sun-card {
+  background: var(--card2);
+  border-radius: var(--radius-sm);
+  padding: 20px 14px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+.sun-card:hover { transform: translateY(-4px); box-shadow: var(--glow-yellow); }
+.sun-card .sc-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+.sun-card .sc-title { font-weight: 800; font-size: 0.9rem; color: var(--coral); margin-bottom: 6px; }
+.sun-card .sc-desc { font-size: 0.78rem; color: var(--text-dim); line-height: 1.5; font-weight: 600; }
+
+/* ═══════════════════════════════════════════════
+   INTERACTIVE FLASHCARDS
+═══════════════════════════════════════════════ */
+.flashcards-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 16px 0;
+}
+.flip-card {
+  height: 140px;
+  perspective: 800px;
+  cursor: pointer;
+}
+.flip-inner {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(.4,.2,.2,1);
+}
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back {
+  position: absolute; inset: 0;
+  border-radius: var(--radius-sm);
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.flip-back { transform: rotateY(180deg); }
+.flip-front .f-emoji { font-size: 2.4rem; margin-bottom: 8px; }
+.flip-front .f-word { font-family: 'Baloo 2', cursive; font-size: 1.2rem; font-weight: 800; }
+.flip-front .f-hint { font-size: 0.68rem; color: var(--text-dimmer); margin-top: 6px; font-style: italic; }
+.flip-back .f-def { font-size: 0.85rem; font-weight: 700; color: var(--text); line-height: 1.5; }
+.flip-back .f-ex { font-size: 0.72rem; color: var(--text-dim); margin-top: 6px; font-weight: 600; }
+
+/* ═══════════════════════════════════════════════
+   QUIZ SECTION
+═══════════════════════════════════════════════ */
+.quiz-header {
+  background: linear-gradient(135deg, var(--green-dim), rgba(22,163,74,0.04));
+  border: 1px solid rgba(22,163,74,0.2);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+}
+.quiz-header h2 {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--green);
+  margin-bottom: 6px;
+}
+.quiz-header p { font-size: 0.9rem; color: var(--text-dim); font-weight: 600; }
+
+.quiz-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.qs-chip {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px;
+  text-align: center;
+}
+.qs-chip .qsc-val { font-family: 'Baloo 2', cursive; font-size: 1.8rem; font-weight: 800; }
+.qs-chip .qsc-lbl { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); }
+
+.progress-track {
+  background: var(--card2);
+  border-radius: 20px;
+  height: 8px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, var(--green), var(--teal));
+  transition: width 0.5s cubic-bezier(.4,2,.6,1);
+}
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-dimmer);
+  margin-bottom: 24px;
+}
+
+.q-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+  animation: fadeUp 0.35s ease;
+}
+.q-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+}
+.q-emoji-big { font-size: 2.2rem; display: block; margin-bottom: 10px; }
+.q-text { font-size: 1.05rem; font-weight: 800; color: var(--text); line-height: 1.55; margin-bottom: 20px; }
+
+.options-grid { display: flex; flex-direction: column; gap: 10px; }
+.opt-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card2);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s;
+  width: 100%;
+}
+.opt-btn:hover:not(:disabled) {
+  border-color: var(--blue);
+  background: var(--blue-dim);
+  transform: translateX(4px);
+}
+.opt-key {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.9rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+.opt-btn.correct { border-color: var(--green); background: var(--green-dim); }
+.opt-btn.correct .opt-key { background: var(--green); color: #000; }
+.opt-btn.wrong { border-color: #FF5252; background: #FEF2F2; opacity: 0.75; }
+.opt-btn.wrong .opt-key { background: #FF5252; color: white; }
+.opt-btn:disabled { cursor: default; }
+
+.feedback-panel {
+  margin-top: 14px;
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: none;
+  line-height: 1.6;
+  animation: fadeUp 0.25s ease;
+}
+.feedback-panel.show { display: block; }
+.feedback-panel.correct { background: var(--green-dim); border: 1px solid rgba(22,163,74,0.3); color: #15803D; }
+.feedback-panel.wrong { background: #FEF2F2; border: 1px solid rgba(220,38,38,0.25); color: #DC2626; }
+
+.next-q-btn {
+  margin-top: 14px;
+  width: 100%;
+  background: linear-gradient(135deg, var(--green), #2EA043);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  display: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: var(--glow-green);
+}
+.next-q-btn:hover { transform: translateY(-2px); }
+.next-q-btn.show { display: block; animation: fadeUp 0.3s ease; }
+
+/* ── RESULT SCREEN ── */
+.result-screen {
+  display: none;
+  text-align: center;
+  animation: fadeUp 0.4s ease;
+}
+.result-screen.show { display: block; }
+.result-screen .rs-trophy { font-size: 5rem; display: block; margin-bottom: 12px; animation: bounce 1s ease-in-out infinite alternate; }
+@keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-14px)} }
+.result-screen h2 { font-family: 'Baloo 2', cursive; font-size: 2rem; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.result-score-big { font-family: 'Baloo 2', cursive; font-size: 4rem; font-weight: 800; color: var(--green); margin: 10px 0; }
+.result-screen .rs-msg { font-size: 1rem; color: var(--text-dim); font-weight: 700; margin-bottom: 20px; }
+.result-stars { font-size: 2.5rem; letter-spacing: 8px; margin-bottom: 24px; }
+
+.review-grid { text-align: left; margin-bottom: 24px; }
+.rv-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.rv-item.ok { background: var(--green-dim); color: #15803D; }
+.rv-item.miss { background: #FEF2F2; color: #DC2626; }
+.rv-icon { flex-shrink: 0; }
+
+.retry-btn {
+  background: linear-gradient(135deg, var(--coral), #E64A19);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 16px 36px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(255,123,84,0.35);
+  transition: transform 0.15s;
+}
+.retry-btn:hover { transform: scale(1.04); }
+
+/* ═══════════════════════════════════════════════
+   PRINT SECTION
+═══════════════════════════════════════════════ */
+.print-section {
+  max-width: 700px;
+}
+.print-header-card {
+  background: linear-gradient(135deg, var(--card), var(--card2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 36px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.print-header-card h2 {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--coral);
+  margin-bottom: 8px;
+}
+.print-header-card p { color: var(--text-dim); font-weight: 600; font-size: 0.95rem; margin-bottom: 24px; }
+
+.print-btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.print-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border-radius: var(--radius-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.print-btn.primary {
+  background: linear-gradient(135deg, var(--coral), #E64A19);
+  color: white;
+  box-shadow: 0 4px 16px rgba(255,123,84,0.3);
+}
+.print-btn.secondary {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.print-btn:hover { transform: translateY(-2px); }
+
+.worksheet-preview {
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  color: #212121;
+  font-family: 'Nunito', sans-serif;
+}
+.wp-header {
+  background: #1A237E;
+  padding: 22px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wp-header h3 { font-family: 'Baloo 2', cursive; font-size: 1.3rem; color: white; }
+.wp-header span { font-size: 0.8rem; color: #FFD54F; font-weight: 800; }
+.wp-name-row {
+  display: flex; gap: 20px;
+  padding: 14px 28px;
+  background: #F5F5F5;
+  border-bottom: 2px solid #E0E0E0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #37474F;
+}
+.wp-name-row span { border-bottom: 2px solid #90A4AE; padding-bottom: 2px; flex: 1; }
+.wp-part { padding: 20px 28px; border-bottom: 1px solid #EEEEEE; }
+.wp-part-title {
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: #1A237E;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+  padding: 6px 12px;
+  background: #E3F2FD;
+  border-radius: 6px;
+  display: inline-block;
+}
+.wp-q {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #37474F;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  padding: 6px 0;
+  border-bottom: 1px dotted #E0E0E0;
+}
+.wp-q:last-child { border-bottom: none; }
+.wp-blank { display: inline-block; width: 100px; border-bottom: 2px solid #90A4AE; margin: 0 4px; }
+.wp-tf { color: #1976D2; font-weight: 900; }
+.wp-footer {
+  background: #FFF8E1;
+  padding: 12px 28px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #E65100;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════
+   MOBILE / TABLET
+═══════════════════════════════════════════════ */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 90;
+  backdrop-filter: blur(4px);
+}
+.sidebar-overlay.show { display: block; }
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    transform: translateX(-100%);
+    z-index: 100;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .menu-toggle { display: flex; }
+  .content-area { padding: 20px 16px; }
+  .ch-hero { padding: 24px 20px; }
+  .ch-hero h1 { font-size: 1.8rem; }
+  .flashcards-row { grid-template-columns: 1fr 1fr; }
+  .sun-safety-grid { grid-template-columns: 1fr; }
+  .quiz-stats { flex-wrap: wrap; }
+  .demo-stage { min-height: 120px; }
+  .topbar { padding: 12px 16px; }
+  .print-btn-group { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .flashcards-row { grid-template-columns: 1fr; }
+  .result-score-big { font-size: 3rem; }
+}
+
+/* Print styles */
+@media print {
+  .app-shell { display: block; }
+  .sidebar, .topbar { display: none; }
+  .content-area { overflow: visible; padding: 0; }
+  .section-panel { display: block !important; }
+  .worksheet-preview { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="app-shell">
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-title">🚀 Laith's Science</div>
+      <div class="logo-sub">Interactive Study World</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="chapter-label">Chapters</div>
+
+      <!-- Chapter 4.2 -->
+      <div class="chapter-group">
+        <div class="chapter-header open active" id="ch42-header" onclick="toggleChapter('ch42')">
+          <div class="ch-icon" style="background:rgba(88,166,255,0.12)">💡</div>
+          <div>
+            <div class="ch-title">4.2 Light & Matter</div>
+          </div>
+          <span class="ch-arrow">▶</span>
+        </div>
+        <div class="chapter-items open" id="ch42-items">
+          <div class="nav-item active" id="nav-42-learn" onclick="showSection('42-learn')">
+            <span class="ni-dot"></span> Learn & Study Guide
+          </div>
+          <div class="nav-item" id="nav-42-quiz" onclick="showSection('42-quiz')">
+            <span class="ni-dot"></span> Quiz Time
+          </div>
+          <div class="nav-item" id="nav-42-print" onclick="showSection('42-print')">
+            <span class="ni-dot"></span> Printable Worksheet
+          </div>
+        </div>
+      </div>
+
+      <!-- Placeholder chapters -->
+      <div class="chapter-group">
+        <div class="chapter-header" onclick="alert('Coming soon! Add your next chapter here 📚')">
+          <div class="ch-icon" style="background:rgba(63,185,80,0.1)">🌊</div>
+          <div><div class="ch-title">Next Chapter</div></div>
+          <span class="ch-arrow">▶</span>
+        </div>
+      </div>
+      <div class="chapter-group">
+        <div class="chapter-header" onclick="alert('Coming soon! Add your next chapter here 📚')">
+          <div class="ch-icon" style="background:rgba(188,140,255,0.1)">⚡</div>
+          <div><div class="ch-title">Next Chapter</div></div>
+          <span class="ch-arrow">▶</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">Grade 3 Science · <span>Laith's World</span></div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-breadcrumb" id="breadcrumb">
+        Chapter 4.2 › <strong>Learn & Study Guide</strong>
+      </div>
+      <div class="topbar-right">
+        <div class="stars-badge">⭐ <span id="total-stars">0</span> Stars</div>
+      </div>
+    </div>
+
+    <div class="content-area" id="content-area">
+
+      <!-- ══════════════════════════════════════
+           SECTION: 4.2 LEARN
+      ══════════════════════════════════════ -->
+      <div class="section-panel active" id="panel-42-learn">
+
+        <!-- Hero -->
+        <div class="ch-hero light-theme">
+          <div class="hero-badge">📚 Chapter 4.2</div>
+          <h1>🔦 Light &amp; Matter</h1>
+          <p>Learn everything about how light interacts with different objects — and how to stay safe in the sun!</p>
+          <div class="hero-objectives">
+            <span class="obj-chip">👁️ How we see objects</span>
+            <span class="obj-chip">🪨 Opaque &amp; Shadows</span>
+            <span class="obj-chip">🪟 Transparent</span>
+            <span class="obj-chip">🌫️ Translucent</span>
+            <span class="obj-chip">☀️ Sun Safety</span>
+            <span class="obj-chip">🌈 Colors of Light</span>
+          </div>
+        </div>
+
+        <!-- ── CONCEPT 1: HOW WE SEE ── -->
+        <div class="learn-section-title">👁️ How Do We See Objects? <span class="lst-line"></span></div>
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <div class="cc-icon" style="background:rgba(88,166,255,0.12)">💡</div>
+            <div>
+              <div class="cc-title" style="color:var(--blue)">How Light Lets Us See</div>
+              <div class="cc-subtitle">Light reflects off objects into your eyes</div>
+            </div>
+          </div>
+          <div class="concept-card-body">
+            <p class="concept-explain">
+              Imagine you're reading a book with a lamp on. The lamp sends out light. That light hits the book and <strong>bounces back</strong> (reflects) into your eyes. That's how you see things that don't glow on their own!<br><br>
+              When light hits any object, <strong>3 things can happen</strong>: it can bounce back (reflect), be soaked up (absorbed), or bend through (refract). Often all three happen at once!
+            </p>
+
+            <!-- See animation -->
+            <div class="see-demo">
+              <div class="see-item">
+                <span class="see-icon">💡</span>
+                <span class="see-label">Lamp<br>(light source)</span>
+              </div>
+              <div class="see-arrow">
+                <div class="arrow-beam" style="width:55px"></div>
+                <div class="arrow-label">light shoots out →</div>
+              </div>
+              <div class="see-item">
+                <span class="see-icon">📖</span>
+                <span class="see-label">Book<br>(object)</span>
+              </div>
+              <div class="see-arrow">
+                <div class="arrow-beam reflect" style="width:55px"></div>
+                <div class="arrow-label">← light bounces back</div>
+              </div>
+              <div class="see-item">
+                <span class="see-icon">👁️</span>
+                <span class="see-label">Your eyes<br>(you see!)</span>
+              </div>
+            </div>
+
+            <div class="demo-legend">
+              <div class="legend-chip"><div class="legend-dot" style="background:#FFB300"></div>Light from lamp</div>
+              <div class="legend-chip"><div class="legend-dot" style="background:#58A6FF"></div>Reflected light</div>
+              <div class="legend-chip"><div class="legend-dot" style="background:#3FB950"></div>You see the object!</div>
+            </div>
+
+            <!-- Flashcards for the 3 things -->
+            <br>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px">
+              <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+                <div style="font-size:1.8rem">🪞</div>
+                <div style="font-weight:800;font-size:0.85rem;color:var(--blue);margin:6px 0 4px">Reflected</div>
+                <div style="font-size:0.72rem;color:var(--text-dim);font-weight:600;line-height:1.4">Light bounces back off the surface</div>
+              </div>
+              <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+                <div style="font-size:1.8rem">🔥</div>
+                <div style="font-weight:800;font-size:0.85rem;color:var(--coral);margin:6px 0 4px">Absorbed</div>
+                <div style="font-size:0.72rem;color:var(--text-dim);font-weight:600;line-height:1.4">Light is soaked into the object</div>
+              </div>
+              <div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+                <div style="font-size:1.8rem">〰️</div>
+                <div style="font-weight:800;font-size:0.85rem;color:var(--purple);margin:6px 0 4px">Refracted</div>
+                <div style="font-size:0.72rem;color:var(--text-dim);font-weight:600;line-height:1.4">Light bends as it passes through</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── CONCEPT 2: OPAQUE ── -->
+        <div class="learn-section-title">🪨 Opaque Objects &amp; Shadows <span class="lst-line"></span></div>
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <div class="cc-icon" style="background:rgba(96,125,139,0.15)">🪨</div>
+            <div>
+              <div class="cc-title" style="color:#90A4AE">Opaque</div>
+              <div class="cc-subtitle">Light CANNOT pass through → Shadow forms!</div>
+            </div>
+          </div>
+          <div class="concept-card-body">
+            <p class="concept-explain">
+              <strong>Opaque</strong> objects block ALL light. They only reflect or absorb it. Because no light gets through, a dark shape called a <strong>shadow</strong> forms on the other side!<br><br>
+              Your body is opaque. That's why you cast a shadow on a sunny day. Thick wood, aluminum foil, and cardboard are all opaque.
+            </p>
+
+            <!-- Opaque animation -->
+            <div class="demo-stage opaque-demo">
+              <div class="light-source">☀️</div>
+              <div class="beam-container"><div class="beam"></div></div>
+              <div class="wall"></div>
+              <div class="wall-label">Opaque<br>Wall</div>
+              <div class="shadow-zone"></div>
+              <div class="shadow-label">Shadow<br>Zone 🌑</div>
+              <div class="blocked-x">✋</div>
+            </div>
+
+            <div class="demo-legend">
+              <div class="legend-chip"><div class="legend-dot" style="background:#FFB300"></div>Light beam</div>
+              <div class="legend-chip"><div class="legend-dot" style="background:#607D8B"></div>Opaque wall (blocks all light)</div>
+              <div class="legend-chip"><div class="legend-dot" style="background:#94A3B8"></div>Shadow area (dark)</div>
+            </div>
+
+            <!-- Shadow scene -->
+            <div class="shadow-demo-scene">
+              <div class="scene-sun">☀️</div>
+              <div class="scene-person">🧍</div>
+              <div class="scene-shadow"></div>
+              <div class="scene-floor"></div>
+            </div>
+            <p style="text-align:center;font-size:0.78rem;color:var(--text-dim);font-weight:700;margin-top:6px">
+              A person's body is opaque → light can't pass → shadow forms!
+            </p>
+
+            <br>
+            <div style="background:var(--card2);border:1px solid rgba(96,125,139,0.3);border-radius:10px;padding:14px 16px;">
+              <div style="font-weight:800;font-size:0.85rem;color:#90A4AE;margin-bottom:8px">📦 Examples of Opaque Objects:</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <span style="background:rgba(96,125,139,0.15);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:#90A4AE">🪟 Wooden door</span>
+                <span style="background:rgba(96,125,139,0.15);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:#90A4AE">🧱 Brick wall</span>
+                <span style="background:rgba(96,125,139,0.15);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:#90A4AE">🌫️ Aluminum foil</span>
+                <span style="background:rgba(96,125,139,0.15);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:#90A4AE">📚 Thick cardboard</span>
+                <span style="background:rgba(96,125,139,0.15);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:#90A4AE">🧍 Your body!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── CONCEPT 3: TRANSPARENT ── -->
+        <div class="learn-section-title">🪟 Transparent Objects <span class="lst-line"></span></div>
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <div class="cc-icon" style="background:rgba(79,195,247,0.1)">🪟</div>
+            <div>
+              <div class="cc-title" style="color:var(--teal)">Transparent</div>
+              <div class="cc-subtitle">Light passes through FULLY → you see clearly</div>
+            </div>
+          </div>
+          <div class="concept-card-body">
+            <p class="concept-explain">
+              <strong>Transparent</strong> objects let ALL the light pass straight through them. You can see what's on the other side perfectly clearly. No shadow is formed because light passes right through!
+            </p>
+
+            <!-- Transparent animation -->
+            <div class="demo-stage transparent-demo">
+              <div class="light-source">☀️</div>
+              <div class="beam-full"></div>
+              <div class="glass-panel"></div>
+              <div class="glass-label">Glass ✨</div>
+              <div class="check">✅</div>
+            </div>
+
+            <div class="demo-legend">
+              <div class="legend-chip"><div class="legend-dot" style="background:#FFB300"></div>Light enters</div>
+              <div class="legend-chip"><div class="legend-dot" style="background:#4FC3F7"></div>Glass panel (fully transparent)</div>
+              <div class="legend-chip"><div class="legend-dot" style="background:#3FB950"></div>Light passes through fully!</div>
+            </div>
+
+            <br>
+            <div style="background:var(--card2);border:1px solid rgba(79,195,247,0.2);border-radius:10px;padding:14px 16px;">
+              <div style="font-weight:800;font-size:0.85rem;color:var(--teal);margin-bottom:8px">💧 Examples of Transparent Objects:</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <span style="background:rgba(79,195,247,0.1);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:var(--teal)">🪟 Glass window</span>
+                <span style="background:rgba(79,195,247,0.1);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:var(--teal)">💧 Water</span>
+                <span style="background:rgba(79,195,247,0.1);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:var(--teal)">🧴 Clear plastic bottle</span>
+                <span style="background:rgba(79,195,247,0.1);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:var(--teal)">🌬️ Air</span>
+                <span style="background:rgba(79,195,247,0.1);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:var(--teal)">🔭 Eyeglasses lens</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── CONCEPT 4: TRANSLUCENT ── -->
+        <div class="learn-section-title">🌫️ Translucent Objects <span class="lst-line"></span></div>
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <div class="cc-icon" style="background:rgba(188,140,255,0.1)">🌫️</div>
+            <div>
+              <div class="cc-title" style="color:var(--purple)">Translucent</div>
+              <div class="cc-subtitle">SOME light passes through → things look blurry</div>
+            </div>
+          </div>
+          <div class="concept-card-body">
+            <p class="concept-explain">
+              <strong>Translucent</strong> objects are in between opaque and transparent. They let <strong>some</strong> light through but block the rest. The light that gets through is scattered, making things on the other side look <strong>blurry</strong>.
+            </p>
+
+            <!-- Translucent animation -->
+            <div class="demo-stage translucent-demo">
+              <div class="light-source">☀️</div>
+              <div class="beam-partial"></div>
+              <div class="frosted-panel"></div>
+              <div class="frosted-label">Frosted<br>glass 🌫️</div>
+              <div class="beam-weak"></div>
+              <div class="blurry-label">Blurry<br>light 〰️</div>
+            </div>
+
+            <div class="demo-legend">
+              <div class="legend-chip"><div class="legend-dot" style="background:#FFB300"></div>Full beam enters</div>
+              <div class="legend-chip"><div class="legend-dot" style="background:#BC8CFF"></div>Frosted glass (blocks some)</div>
+              <div class="legend-chip"><div class="legend-dot" style="background:#7B47BC"></div>Weak, scattered light exits</div>
+            </div>
+
+            <br>
+            <div style="background:var(--card2);border:1px solid rgba(188,140,255,0.2);border-radius:10px;padding:14px 16px;">
+              <div style="font-weight:800;font-size:0.85rem;color:var(--purple);margin-bottom:8px">🌫️ Examples of Translucent Objects:</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <span style="background:rgba(188,140,255,0.1);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:var(--purple)">📄 Wax paper</span>
+                <span style="background:rgba(188,140,255,0.1);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:var(--purple)">🚿 Frosted glass</span>
+                <span style="background:rgba(188,140,255,0.1);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:var(--purple)">🎨 Colored tissue paper</span>
+                <span style="background:rgba(188,140,255,0.1);border-radius:20px;padding:4px 12px;font-size:0.78rem;font-weight:700;color:var(--purple)">🧪 Some plastics</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── QUICK COMPARE ── -->
+        <div class="learn-section-title">⚡ Quick Comparison <span class="lst-line"></span></div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--border)">
+            <div style="padding:14px;text-align:center;background:rgba(96,125,139,0.1);border-right:1px solid var(--border)">
+              <div style="font-size:1.5rem">🪨</div>
+              <div style="font-weight:800;color:#90A4AE;font-size:0.9rem;margin-top:4px">OPAQUE</div>
+            </div>
+            <div style="padding:14px;text-align:center;background:rgba(79,195,247,0.06);border-right:1px solid var(--border)">
+              <div style="font-size:1.5rem">🪟</div>
+              <div style="font-weight:800;color:var(--teal);font-size:0.9rem;margin-top:4px">TRANSPARENT</div>
+            </div>
+            <div style="padding:14px;text-align:center;background:rgba(188,140,255,0.06)">
+              <div style="font-size:1.5rem">🌫️</div>
+              <div style="font-weight:800;color:var(--purple);font-size:0.9rem;margin-top:4px">TRANSLUCENT</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr">
+            <div style="padding:16px;text-align:center;border-right:1px solid var(--border)">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-dim);line-height:1.6">No light passes<br>Shadow forms<br>Can't see through</div>
+            </div>
+            <div style="padding:16px;text-align:center;border-right:1px solid var(--border)">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-dim);line-height:1.6">All light passes<br>No shadow<br>See clearly</div>
+            </div>
+            <div style="padding:16px;text-align:center">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-dim);line-height:1.6">Some light passes<br>Faint shadow<br>See blurry</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TAP FLASHCARDS ── -->
+        <div class="learn-section-title">🃏 Tap the Cards to Memorize! <span class="lst-line"></span></div>
+        <div class="flashcards-row">
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front" style="background:rgba(96,125,139,0.12);border-color:rgba(96,125,139,0.3)">
+                <div class="f-emoji">🪨</div>
+                <div class="f-word" style="color:#90A4AE">OPAQUE</div>
+                <div class="f-hint">tap to flip!</div>
+              </div>
+              <div class="flip-back" style="background:rgba(96,125,139,0.18);border-color:rgba(96,125,139,0.4)">
+                <div class="f-def">Light <strong style="color:#90A4AE">CANNOT</strong> pass through. Makes a <strong style="color:#90A4AE">shadow</strong>!</div>
+                <div class="f-ex">🪨 Wood, foil, cardboard, your body</div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front" style="background:rgba(79,195,247,0.08);border-color:rgba(79,195,247,0.3)">
+                <div class="f-emoji">🪟</div>
+                <div class="f-word" style="color:var(--teal)">TRANSPARENT</div>
+                <div class="f-hint">tap to flip!</div>
+              </div>
+              <div class="flip-back" style="background:rgba(79,195,247,0.12);border-color:rgba(79,195,247,0.4)">
+                <div class="f-def">Light passes through <strong style="color:var(--teal)">FULLY</strong>. See clearly!</div>
+                <div class="f-ex">🪟 Glass, water, clear plastic</div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front" style="background:rgba(188,140,255,0.08);border-color:rgba(188,140,255,0.3)">
+                <div class="f-emoji">🌫️</div>
+                <div class="f-word" style="color:var(--purple)">TRANSLUCENT</div>
+                <div class="f-hint">tap to flip!</div>
+              </div>
+              <div class="flip-back" style="background:rgba(188,140,255,0.12);border-color:rgba(188,140,255,0.4)">
+                <div class="f-def"><strong style="color:var(--purple)">SOME</strong> light passes. Things look <strong style="color:var(--purple)">blurry</strong>!</div>
+                <div class="f-ex">🌫️ Wax paper, frosted glass</div>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-inner">
+              <div class="flip-front" style="background:rgba(240,208,96,0.08);border-color:rgba(240,208,96,0.3)">
+                <div class="f-emoji">🌑</div>
+                <div class="f-word" style="color:var(--yellow)">SHADOW</div>
+                <div class="f-hint">tap to flip!</div>
+              </div>
+              <div class="flip-back" style="background:rgba(240,208,96,0.12);border-color:rgba(240,208,96,0.4)">
+                <div class="f-def">Dark shape formed when an <strong style="color:var(--yellow)">opaque</strong> object blocks light!</div>
+                <div class="f-ex">🌑 Your shadow on a sunny day</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUN SAFETY ── -->
+        <div class="learn-section-title">☀️ Staying Safe in Sunlight <span class="lst-line"></span></div>
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <div class="cc-icon" style="background:rgba(240,208,96,0.12)">☀️</div>
+            <div>
+              <div class="cc-title" style="color:var(--yellow)">Sun Safety</div>
+              <div class="cc-subtitle">Protect your eyes and skin from the sun</div>
+            </div>
+          </div>
+          <div class="concept-card-body">
+            <p class="concept-explain">
+              Sunlight can <strong>harm your eyes</strong> and cause <strong>sunburn on your skin</strong>. Always protect yourself on hot, sunny days! There are 3 great ways to stay safe:
+            </p>
+            <div class="sun-safety-grid">
+              <div class="sun-card">
+                <span class="sc-icon">🕶️</span>
+                <div class="sc-title">Sunglasses</div>
+                <div class="sc-desc">Protect your eyes from harmful sunlight rays. Never look directly at the sun!</div>
+              </div>
+              <div class="sun-card">
+                <span class="sc-icon">🧴</span>
+                <div class="sc-title">Sunscreen</div>
+                <div class="sc-desc">Apply on your skin before going outside. Prevents painful sunburns!</div>
+              </div>
+              <div class="sun-card">
+                <span class="sc-icon">🧢</span>
+                <div class="sc-title">Hat &amp; Shade</div>
+                <div class="sc-desc">A hat covers your head and face. Sitting in the shade also keeps you cool and safe!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── COLORS OF LIGHT ── -->
+        <div class="learn-section-title">🌈 Colors of Light — Did You Know? <span class="lst-line"></span></div>
+        <div class="concept-card">
+          <div class="concept-card-header">
+            <div class="cc-icon" style="background:rgba(57,208,208,0.1)">🌈</div>
+            <div>
+              <div class="cc-title" style="color:var(--teal)">Colors of Light</div>
+              <div class="cc-subtitle">Sunlight is a mix of ALL colors!</div>
+            </div>
+          </div>
+          <div class="concept-card-body">
+            <p class="concept-explain">
+              <strong>Sunlight looks white</strong>, but it's actually a mixture of ALL the colors of the rainbow! When light hits an object, the object <strong>absorbs</strong> some colors and <strong>reflects</strong> others. The color you see is the one that bounces back to your eyes!
+            </p>
+
+            <!-- Prism demo -->
+            <div class="color-demo">
+              <div class="prism-row">
+                <div class="white-beam-in">
+                  <div class="wb-ray"></div>
+                  <div class="wb-ray"></div>
+                  <div class="wb-ray"></div>
+                  <div style="font-size:0.65rem;color:var(--text-dimmer);margin-top:4px;font-weight:700">White sunlight</div>
+                </div>
+                <div class="prism-shape">🔷</div>
+                <div class="rainbow-out">
+                  <div class="rainbow-ray r1"></div>
+                  <div class="rainbow-ray r2"></div>
+                  <div class="rainbow-ray r3"></div>
+                  <div class="rainbow-ray r4"></div>
+                  <div class="rainbow-ray r5"></div>
+                  <div class="rainbow-ray r6"></div>
+                  <div style="font-size:0.65rem;color:var(--text-dimmer);margin-top:4px;font-weight:700">All colors split apart!</div>
+                </div>
+              </div>
+
+              <div class="fruit-row">
+                <div class="fruit-card">
+                  <div class="f-icon">🍋</div>
+                  <div class="f-name">Yellow Lemon</div>
+                  <div class="f-desc">Reflects <strong>yellow</strong> light. Absorbs all other colors.</div>
+                  <span class="f-tag" style="background:rgba(240,208,96,0.2);color:#F0D060">Reflects Yellow</span>
+                </div>
+                <div class="fruit-card">
+                  <div class="f-icon">🍏</div>
+                  <div class="f-name">Green Lime</div>
+                  <div class="f-desc">Reflects <strong>green</strong> light. Absorbs all other colors.</div>
+                  <span class="f-tag" style="background:rgba(63,185,80,0.2);color:#3FB950">Reflects Green</span>
+                </div>
+                <div class="fruit-card">
+                  <div class="f-icon">⬜</div>
+                  <div class="f-name">White Object</div>
+                  <div class="f-desc">Reflects <strong>ALL</strong> colors of light back to your eyes.</div>
+                  <span class="f-tag" style="background:rgba(100,116,139,0.12);color:#475569">Reflects All</span>
+                </div>
+                <div class="fruit-card">
+                  <div class="f-icon">⬛</div>
+                  <div class="f-name">Black Object</div>
+                  <div class="f-desc">Absorbs <strong>ALL</strong> colors. Reflects none back to you.</div>
+                  <span class="f-tag" style="background:rgba(30,41,59,0.08);color:#334155">Absorbs All</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary box -->
+            <div style="background:var(--green-dim);border:1px solid rgba(63,185,80,0.25);border-radius:var(--radius-sm);padding:16px 18px;margin-top:16px">
+              <div style="font-weight:800;font-size:0.9rem;color:var(--green);margin-bottom:10px">✅ Chapter Summary — Remember These!</div>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+                <li style="font-size:0.85rem;font-weight:700;color:#15803D;display:flex;gap:8px"><span>👁️</span>We see objects because light bounces off them into our eyes</li>
+                <li style="font-size:0.85rem;font-weight:700;color:#15803D;display:flex;gap:8px"><span>🪨</span><strong>Opaque</strong> = blocks ALL light → shadow forms</li>
+                <li style="font-size:0.85rem;font-weight:700;color:#15803D;display:flex;gap:8px"><span>🪟</span><strong>Transparent</strong> = ALL light passes through → see clearly</li>
+                <li style="font-size:0.85rem;font-weight:700;color:#15803D;display:flex;gap:8px"><span>🌫️</span><strong>Translucent</strong> = SOME light passes → see blurry</li>
+                <li style="font-size:0.85rem;font-weight:700;color:#15803D;display:flex;gap:8px"><span>☀️</span>Protect yourself: sunglasses + sunscreen + hat!</li>
+                <li style="font-size:0.85rem;font-weight:700;color:#15803D;display:flex;gap:8px"><span>🌈</span>Objects look the color they reflect back to your eyes</li>
+              </ul>
+            </div>
+
+            <button class="next-q-btn show" style="margin-top:20px" onclick="showSection('42-quiz')">
+              Ready? Take the Quiz! 🧠 →
+            </button>
+          </div>
+        </div>
+      </div><!-- /panel-42-learn -->
+
+      <!-- ══════════════════════════════════════
+           SECTION: 4.2 QUIZ
+      ══════════════════════════════════════ -->
+      <div class="section-panel" id="panel-42-quiz">
+        <div class="quiz-header">
+          <h2>🧠 Quiz Time!</h2>
+          <p>10 questions on Light &amp; Matter — answer carefully and earn stars! ⭐</p>
+        </div>
+
+        <div class="quiz-stats">
+          <div class="qs-chip">
+            <div class="qsc-val" id="q-stars" style="color:var(--yellow)">0</div>
+            <div class="qsc-lbl">⭐ Stars</div>
+          </div>
+          <div class="qs-chip">
+            <div class="qsc-val" id="q-correct" style="color:var(--green)">0</div>
+            <div class="qsc-lbl">✅ Correct</div>
+          </div>
+          <div class="qs-chip">
+            <div class="qsc-val" id="q-num" style="color:var(--blue)">1/10</div>
+            <div class="qsc-lbl">📝 Question</div>
+          </div>
+        </div>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="q-progress" style="width:0%"></div>
+        </div>
+        <div class="progress-info">
+          <span id="q-progress-label">Question 1 of 10</span>
+          <span id="q-progress-pct">0%</span>
+        </div>
+
+        <!-- Quiz area -->
+        <div id="quiz-area">
+          <div class="q-card" id="q-card">
+            <div class="q-badge" id="q-badge">Question 1</div>
+            <span id="q-emoji" class="q-emoji-big"></span>
+            <div id="q-text" class="q-text"></div>
+            <div class="options-grid" id="q-options"></div>
+            <div class="feedback-panel" id="q-feedback"></div>
+            <button class="next-q-btn" id="q-next" onclick="nextQ()">Next Question →</button>
+          </div>
+        </div>
+
+        <!-- Result screen -->
+        <div class="result-screen" id="result-screen">
+          <span class="rs-trophy" id="rs-trophy">🏆</span>
+          <h2 id="rs-title">Amazing!</h2>
+          <div class="result-score-big" id="rs-score">0</div>
+          <div class="result-stars" id="rs-stars"></div>
+          <p class="rs-msg" id="rs-msg"></p>
+          <div class="review-grid" id="rs-review"></div>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <button class="retry-btn" onclick="initQuiz()">🔄 Try Again</button>
+            <button class="retry-btn" style="background:linear-gradient(135deg,var(--blue),#1F6FEB)" onclick="showSection('42-learn')">📖 Review Notes</button>
+          </div>
+        </div>
+      </div><!-- /panel-42-quiz -->
+
+      <!-- ══════════════════════════════════════
+           SECTION: 4.2 PRINT
+      ══════════════════════════════════════ -->
+      <div class="section-panel" id="panel-42-print">
+        <div class="print-section">
+          <div class="print-header-card">
+            <div style="font-size:3rem;margin-bottom:12px">🖨️</div>
+            <h2>Printable Worksheet</h2>
+            <p>A full 20-point exam-style worksheet covering all of Chapter 4.2. Print it, grab a pencil, and test yourself!</p>
+            <div class="print-btn-group">
+              <button class="print-btn primary" onclick="printWorksheet()">🖨️ Print Worksheet</button>
+              <button class="print-btn secondary" onclick="showSection('42-learn')">📖 Review Notes First</button>
+            </div>
+          </div>
+
+          <!-- Worksheet preview -->
+          <div class="worksheet-preview" id="worksheet-content">
+            <div class="wp-header">
+              <h3>Chapter 4.2 — Light and Matter</h3>
+              <span>Grade 3 Science</span>
+            </div>
+            <div class="wp-name-row">
+              <span>Name: _____________________________</span>
+              <span>Date: ______________</span>
+              <span>Score: _____ / 20</span>
+            </div>
+
+            <!-- Part 1 -->
+            <div class="wp-part">
+              <div class="wp-part-title">Part 1 — Fill in the Blanks (5 pts)</div>
+              <div style="background:#FFF8E1;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:0.82rem;font-weight:800;color:#E65100">
+                Word Bank: &nbsp; opaque &nbsp;|&nbsp; shadow &nbsp;|&nbsp; transparent &nbsp;|&nbsp; translucent &nbsp;|&nbsp; reflected
+              </div>
+              <div class="wp-q">1. A wooden door is <span class="wp-blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> because light cannot pass through it.</div>
+              <div class="wp-q">2. A glass window is <span class="wp-blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> because light passes through it fully.</div>
+              <div class="wp-q">3. Wax paper is <span class="wp-blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> because only some light passes through it.</div>
+              <div class="wp-q">4. When an opaque object blocks light, a dark <span class="wp-blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> is formed.</div>
+              <div class="wp-q">5. We can see objects because light is <span class="wp-blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> off them into our eyes.</div>
+            </div>
+
+            <!-- Part 2 -->
+            <div class="wp-part">
+              <div class="wp-part-title">Part 2 — Classify the Objects (6 pts)</div>
+              <div style="background:#E3F2FD;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:0.82rem;font-weight:800;color:#01579B">
+                Objects: &nbsp; glass window &nbsp;|&nbsp; aluminum foil &nbsp;|&nbsp; wax paper &nbsp;|&nbsp; wooden door &nbsp;|&nbsp; clear water bottle &nbsp;|&nbsp; frosted glass
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+                <div style="border:2px solid #90A4AE;border-radius:8px;padding:10px;min-height:80px">
+                  <div style="font-weight:900;font-size:0.8rem;color:#546E7A;margin-bottom:6px;text-align:center">OPAQUE</div>
+                  <div style="font-size:0.8rem;color:#90A4AE">1. ________________</div>
+                  <div style="font-size:0.8rem;color:#90A4AE;margin-top:8px">2. ________________</div>
+                </div>
+                <div style="border:2px solid #4FC3F7;border-radius:8px;padding:10px;min-height:80px">
+                  <div style="font-weight:900;font-size:0.8rem;color:#0277BD;margin-bottom:6px;text-align:center">TRANSPARENT</div>
+                  <div style="font-size:0.8rem;color:#90A4AE">1. ________________</div>
+                  <div style="font-size:0.8rem;color:#90A4AE;margin-top:8px">2. ________________</div>
+                </div>
+                <div style="border:2px solid #CE93D8;border-radius:8px;padding:10px;min-height:80px">
+                  <div style="font-weight:900;font-size:0.8rem;color:#6A1B9A;margin-bottom:6px;text-align:center">TRANSLUCENT</div>
+                  <div style="font-size:0.8rem;color:#90A4AE">1. ________________</div>
+                  <div style="font-size:0.8rem;color:#90A4AE;margin-top:8px">2. ________________</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Part 3 -->
+            <div class="wp-part">
+              <div class="wp-part-title">Part 3 — True or False (5 pts)</div>
+              <div class="wp-q">1. Aluminum foil is transparent. You can see through it.  <span class="wp-tf">True / False</span></div>
+              <div class="wp-q">2. A shadow forms when light passes completely through an object.  <span class="wp-tf">True / False</span></div>
+              <div class="wp-q">3. Sunglasses, sunscreen, and hats help protect us from the sun.  <span class="wp-tf">True / False</span></div>
+              <div class="wp-q">4. Sunlight is a mixture of all the different colors of light.  <span class="wp-tf">True / False</span></div>
+              <div class="wp-q">5. Frosted glass is translucent — things look blurry through it.  <span class="wp-tf">True / False</span></div>
+            </div>
+
+            <!-- Part 4 -->
+            <div class="wp-part">
+              <div class="wp-part-title">Part 4 — Short Answer (4 pts)</div>
+              <div class="wp-q">1. How do we see objects that don't make their own light? (1 pt)<br>
+                <div style="border-bottom:1px solid #E0E0E0;margin-top:16px;margin-bottom:4px"></div>
+                <div style="border-bottom:1px solid #E0E0E0;margin-top:16px"></div>
+              </div>
+              <div class="wp-q" style="margin-top:10px">2. Name 3 ways to stay safe in sunlight. (3 pts)<br>
+                <div style="border-bottom:1px solid #E0E0E0;margin-top:16px;margin-bottom:4px"></div>
+                <div style="border-bottom:1px solid #E0E0E0;margin-top:16px;margin-bottom:4px"></div>
+                <div style="border-bottom:1px solid #E0E0E0;margin-top:16px"></div>
+              </div>
+            </div>
+
+            <div class="wp-footer">⭐ Keep going Laith — you are doing amazing! Science Superstar! 🚀</div>
+          </div>
+
+          <!-- Answer key (hidden, shown on click) -->
+          <div style="margin-top:16px;text-align:center">
+            <button class="print-btn secondary" onclick="toggleAnswers()" id="ans-btn">👁️ Show Answer Key (for parents)</button>
+          </div>
+          <div id="answer-key" style="display:none;margin-top:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px">
+            <div style="font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;color:var(--yellow);margin-bottom:14px">📋 Answer Key</div>
+            <div style="font-size:0.85rem;font-weight:700;color:var(--text-dim);line-height:2">
+              <strong style="color:var(--text)">Part 1:</strong> 1-opaque, 2-transparent, 3-translucent, 4-shadow, 5-reflected<br>
+              <strong style="color:var(--text)">Part 2:</strong> Opaque: aluminum foil, wooden door | Transparent: glass window, clear water bottle | Translucent: wax paper, frosted glass<br>
+              <strong style="color:var(--text)">Part 3:</strong> 1-False, 2-False, 3-True, 4-True, 5-True<br>
+              <strong style="color:var(--text)">Part 4:</strong> 1-Light bounces (reflects) off objects into our eyes | 2-Sunglasses, sunscreen, hat/shade
+            </div>
+          </div>
+        </div>
+      </div><!-- /panel-42-print -->
+
+    </div><!-- /content-area -->
+  </div><!-- /main -->
+</div><!-- /app-shell -->
+
+<script>
+// ══════════════════════════════════════════════
+//  NAV & ROUTING
+// ══════════════════════════════════════════════
+const BREADCRUMBS = {
+  '42-learn': 'Chapter 4.2 › <strong>Learn & Study Guide</strong>',
+  '42-quiz':  'Chapter 4.2 › <strong>Quiz Time</strong>',
+  '42-print': 'Chapter 4.2 › <strong>Printable Worksheet</strong>',
+};
+
+function showSection(id) {
+  // Hide all panels
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.chapter-header').forEach(h => h.classList.remove('active'));
+
+  // Show target
+  document.getElementById('panel-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+
+  // Breadcrumb
+  document.getElementById('breadcrumb').innerHTML = BREADCRUMBS[id] || '';
+
+  // Chapter header active
+  document.getElementById('ch42-header').classList.add('active');
+
+  // Scroll to top
+  document.getElementById('content-area').scrollTo({ top: 0, behavior: 'smooth' });
+
+  // If quiz section, init quiz
+  if (id === '42-quiz') initQuiz();
+
+  // Close mobile sidebar
+  closeSidebar();
+}
+
+function toggleChapter(ch) {
+  const header = document.getElementById(ch + '-header');
+  const items  = document.getElementById(ch + '-items');
+  header.classList.toggle('open');
+  items.classList.toggle('open');
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ══════════════════════════════════════════════
+//  QUIZ ENGINE
+// ══════════════════════════════════════════════
+const QUESTIONS = [
+  {
+    q: "What do we call objects that do NOT let any light pass through them?",
+    emoji: "🪨",
+    opts: ["Transparent", "Translucent", "Opaque", "Shadow"],
+    ans: 2,
+    fb: "✅ Opaque objects block ALL light — that's exactly why they create shadows behind them!"
+  },
+  {
+    q: "When an opaque object blocks light, what dark shape forms on the other side?",
+    emoji: "🌑",
+    opts: ["A rainbow", "A shadow", "A reflection", "A beam"],
+    ans: 1,
+    fb: "✅ A shadow forms when light can't pass through an opaque object! The area behind gets no light."
+  },
+  {
+    q: "Glass windows, water, and clear plastic are examples of which type of object?",
+    emoji: "🪟",
+    opts: ["Opaque", "Translucent", "Shadow", "Transparent"],
+    ans: 3,
+    fb: "✅ Transparent objects let ALL light pass through — you can see clearly through them!"
+  },
+  {
+    q: "You look at a book through wax paper. The book looks BLURRY. Wax paper is...",
+    emoji: "📖",
+    opts: ["Transparent", "Opaque", "Translucent", "Reflective"],
+    ans: 2,
+    fb: "✅ Translucent = some light passes, some is blocked → things always look blurry through it!"
+  },
+  {
+    q: "How do we see objects like a book that don't make their own light?",
+    emoji: "👁️",
+    opts: [
+      "Books glow in the dark",
+      "Light bounces off the book into our eyes",
+      "Our eyes send out light beams",
+      "We can only see them in daylight"
+    ],
+    ans: 1,
+    fb: "✅ Light reflects (bounces) off objects and travels to our eyes — that's how we see! 💡"
+  },
+  {
+    q: "Which of these is an OPAQUE object?",
+    emoji: "🤔",
+    opts: ["Clear glass", "Water", "Aluminum foil", "Air"],
+    ans: 2,
+    fb: "✅ Aluminum foil is opaque — it blocks ALL light! That's why you can't see through it."
+  },
+  {
+    q: "What are THREE ways to stay safe in the sun?",
+    emoji: "☀️",
+    opts: [
+      "Sunglasses, sunscreen, and a hat",
+      "Dark glasses, water, and jumping",
+      "Sunscreen, eating, and sleeping",
+      "A hat, swimming, and staying awake"
+    ],
+    ans: 0,
+    fb: "✅ Sunglasses protect eyes, sunscreen protects skin, and a hat gives shade from the sun! 🧢🕶️🧴"
+  },
+  {
+    q: "Frosted glass lets SOME light through but things look blurry. Frosted glass is...",
+    emoji: "🧊",
+    opts: ["Opaque", "Transparent", "Translucent", "Invisible"],
+    ans: 2,
+    fb: "✅ Frosted glass is translucent — it only lets part of the light through, making things blurry!"
+  },
+  {
+    q: "Sunlight is actually a mixture of...",
+    emoji: "🌈",
+    opts: [
+      "Just yellow and white light",
+      "All the different colors of light",
+      "Only red, blue, and green",
+      "Heat and electricity"
+    ],
+    ans: 1,
+    fb: "✅ Sunlight contains ALL colors mixed together — that's why a prism creates a rainbow! 🌈"
+  },
+  {
+    q: "Why does a green lime LOOK green?",
+    emoji: "🍏",
+    opts: [
+      "It absorbs green light and reflects all others",
+      "It reflects green light and absorbs all other colors",
+      "It makes its own green light",
+      "All fruits are green"
+    ],
+    ans: 1,
+    fb: "✅ Objects look the color they REFLECT! The lime reflects green and absorbs every other color. 🟢"
+  }
+];
+
+let qCurrent = 0, qScore = 0, qStars = 0, qAnswered = false, qResults = [];
+
+function initQuiz() {
+  qCurrent = 0; qScore = 0; qStars = 0; qAnswered = false; qResults = [];
+  document.getElementById('result-screen').classList.remove('show');
+  document.getElementById('quiz-area').style.display = 'block';
+  document.getElementById('q-stars').textContent = '0';
+  document.getElementById('q-correct').textContent = '0';
+  updateStars(0);
+  loadQ();
+}
+
+function loadQ() {
+  const q = QUESTIONS[qCurrent];
+  qAnswered = false;
+
+  document.getElementById('q-badge').textContent = `Question ${qCurrent + 1}`;
+  document.getElementById('q-emoji').textContent = q.emoji;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-num').textContent = `${qCurrent+1}/10`;
+  document.getElementById('q-progress-label').textContent = `Question ${qCurrent+1} of 10`;
+  const pct = Math.round((qCurrent / 10) * 100);
+  document.getElementById('q-progress').style.width = pct + '%';
+  document.getElementById('q-progress-pct').textContent = pct + '%';
+
+  const letters = ['A','B','C','D'];
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-key">${letters[i]}</span>${opt}`;
+    btn.onclick = () => selectAnswer(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('q-feedback').className = 'feedback-panel';
+  document.getElementById('q-feedback').innerHTML = '';
+  document.getElementById('q-next').className = 'next-q-btn';
+
+  // Animate card
+  const card = document.getElementById('q-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'fadeUp 0.35s ease';
+}
+
+function selectAnswer(idx) {
+  if (qAnswered) return;
+  qAnswered = true;
+
+  const q = QUESTIONS[qCurrent];
+  const opts = document.querySelectorAll('#q-options .opt-btn');
+  const fb = document.getElementById('q-feedback');
+  const isOk = idx === q.ans;
+
+  opts.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.ans) btn.classList.add('correct');
+    else if (i === idx) btn.classList.add('wrong');
+  });
+
+  if (isOk) {
+    qScore++; qStars++;
+    document.getElementById('q-stars').textContent = qStars;
+    document.getElementById('q-correct').textContent = qScore;
+    updateStars(qStars);
+    fb.innerHTML = `<strong>🎉 Brilliant!</strong> ${q.fb}`;
+    fb.className = 'feedback-panel correct show';
+  } else {
+    fb.innerHTML = `<strong>💪 Not this time!</strong> ${q.fb}`;
+    fb.className = 'feedback-panel wrong show';
+  }
+
+  qResults.push({ correct: isOk, correctAns: q.opts[q.ans], num: qCurrent+1 });
+  document.getElementById('q-next').className = 'next-q-btn show';
+}
+
+function nextQ() {
+  qCurrent++;
+  if (qCurrent >= QUESTIONS.length) showResults();
+  else loadQ();
+}
+
+function showResults() {
+  document.getElementById('quiz-area').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.classList.add('show');
+
+  document.getElementById('q-progress').style.width = '100%';
+  document.getElementById('q-progress-pct').textContent = '100%';
+  document.getElementById('q-progress-label').textContent = 'Quiz Complete! 🎉';
+  document.getElementById('q-num').textContent = `${qScore}/10`;
+  document.getElementById('rs-score').textContent = `${qScore}/10`;
+
+  let trophy, title, msg, stars;
+  if (qScore === 10) { trophy='🏆'; title='Perfect Score!'; msg='WOW Laith! 10/10 — you are a Science Superstar! 🌟'; stars='⭐⭐⭐⭐⭐'; }
+  else if (qScore >= 8) { trophy='🥇'; title='Excellent!'; msg=`Amazing work! ${qScore}/10 is brilliant. You almost nailed it! 💪`; stars='⭐⭐⭐⭐'; }
+  else if (qScore >= 6) { trophy='🥈'; title='Great Job!'; msg=`Good work Laith! ${qScore}/10 — review the ones you missed and try again! 📚`; stars='⭐⭐⭐'; }
+  else { trophy='📚'; title='Keep Practicing!'; msg=`Good try! Go back to the Learn section and review the notes, then try again! 💡`; stars='⭐⭐'; }
+
+  document.getElementById('rs-trophy').textContent = trophy;
+  document.getElementById('rs-title').textContent = title;
+  document.getElementById('rs-msg').textContent = msg;
+  document.getElementById('rs-stars').textContent = stars;
+  updateStars(qStars);
+
+  const rev = document.getElementById('rs-review');
+  rev.innerHTML = '<div style="font-weight:800;color:var(--text-dim);margin-bottom:8px;font-size:0.82rem;">📋 Your Results:</div>';
+  qResults.forEach((r, i) => {
+    const el = document.createElement('div');
+    el.className = `rv-item ${r.correct ? 'ok' : 'miss'}`;
+    el.innerHTML = `<span class="rv-icon">${r.correct ? '✅' : '❌'}</span>
+      <span><strong>Q${r.num}:</strong> ${r.correct ? 'Correct!' : `Correct answer: ${r.correctAns}`}</span>`;
+    rev.appendChild(el);
+  });
+}
+
+function updateStars(n) {
+  document.getElementById('total-stars').textContent = n;
+}
+
+// ══════════════════════════════════════════════
+//  PRINT / WORKSHEET
+// ══════════════════════════════════════════════
+function printWorksheet() {
+  const ws = document.getElementById('worksheet-content');
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <!DOCTYPE html><html><head>
+    <meta charset="UTF-8">
+    <title>Laith Science Worksheet — Chapter 4.2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Nunito', sans-serif; padding: 20px; color: #212121; max-width: 750px; margin: 0 auto; }
+      * { box-sizing: border-box; }
+    </style>
+    </head><body>
+    ${ws.outerHTML}
+    <script>window.onload=()=>window.print()<\/script>
+    </body></html>
+  `);
+  win.document.close();
+}
+
+function toggleAnswers() {
+  const ak = document.getElementById('answer-key');
+  const btn = document.getElementById('ans-btn');
+  const show = ak.style.display === 'none';
+  ak.style.display = show ? 'block' : 'none';
+  btn.textContent = show ? '🙈 Hide Answer Key' : '👁️ Show Answer Key (for parents)';
+}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+initQuiz();
+</script>
+</body>
+</html>
