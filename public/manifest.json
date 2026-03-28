@@ -1,0 +1,29 @@
+{
+  "name": "Darsi",
+  "short_name": "Darsi",
+  "description": "Interactive study platform for Laith",
+  "start_url": "/darsi.app/",
+  "scope": "/darsi.app/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#2563EB",
+  "background_color": "#F4F6FB",
+  "icons": [
+    {
+      "src": "/darsi.app/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/darsi.app/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/darsi.app/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

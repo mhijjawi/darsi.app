@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
+
+.sidebar-scrollbar::-webkit-scrollbar { width: 4px; }
+.sidebar-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.sidebar-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
+
+/* Flip card */
+.flip-card { perspective: 800px; }
+.flip-inner {
+  transition: transform 0.5s cubic-bezier(.4,.2,.2,1);
+  transform-style: preserve-3d;
+}
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back { backface-visibility: hidden; }
+.flip-back { transform: rotateY(180deg); }
+
+/* Print styles */
+@media print {
+  .no-print { display: none !important; }
+}
