@@ -5,6 +5,7 @@ import chapter42 from '@/data/science/chapter-4-2'
 import ConceptCard from './ConceptCard'
 import FlipCard from './FlipCard'
 import SummaryBox from './SummaryBox'
+import LegoCharacter, { CharacterBubble } from '@/components/characters/LegoCharacter'
 
 export default function LearnContent() {
   const data = chapter42
@@ -15,6 +16,10 @@ export default function LearnContent() {
       <div className="rounded-[16px] p-8 md:px-9 md:py-8 mb-8 relative overflow-hidden bg-gradient-to-br from-[#1D4ED8] via-blue to-[#3B82F6] border border-blue/20">
         <div className="absolute -top-[60px] -right-[60px] w-[200px] h-[200px] rounded-full bg-[rgba(88,166,255,0.08)]" />
         <div className="absolute -bottom-10 left-[30%] w-[140px] h-[140px] rounded-full bg-[rgba(88,166,255,0.05)]" />
+        {/* Character peeking from bottom-right */}
+        <div className="absolute bottom-3 right-4 z-10 opacity-90">
+          <LegoCharacter variant="scientist" size="lg" />
+        </div>
         <div className="relative z-10">
           <div className="inline-flex items-center gap-1.5 bg-[rgba(88,166,255,0.15)] border border-[rgba(88,166,255,0.3)] rounded-[20px] px-3.5 py-1 text-[0.75rem] font-extrabold text-blue tracking-[0.5px] mb-3.5">
             📚 Chapter 4.2
@@ -42,6 +47,14 @@ export default function LearnContent() {
       <SectionTitle emoji="👁️" title="How Do We See Objects?" />
       <ConceptCard concept={data.concepts[0]} />
 
+      {/* Tip from explorer */}
+      <CharacterBubble
+        variant="explorer"
+        message="Pro tip: Remember the 3 things light does — Reflect, Absorb, Refract! Think R-A-R!"
+        side="left"
+        className="my-4"
+      />
+
       {/* Concept 2: Opaque */}
       <SectionTitle emoji="🪨" title="Opaque Objects & Shadows" />
       <ConceptCard concept={data.concepts[1]} />
@@ -49,6 +62,14 @@ export default function LearnContent() {
       {/* Concept 3: Transparent */}
       <SectionTitle emoji="🪟" title="Transparent Objects" />
       <ConceptCard concept={data.concepts[2]} />
+
+      {/* Tip from ninja */}
+      <CharacterBubble
+        variant="ninja"
+        message="A ninja trick to remember: Transparent = you can see through it like a window!"
+        side="right"
+        className="my-4"
+      />
 
       {/* Concept 4: Translucent */}
       <SectionTitle emoji="🌫️" title="Translucent Objects" />
@@ -96,6 +117,12 @@ export default function LearnContent() {
 
       {/* Flashcards */}
       <SectionTitle emoji="🃏" title="Tap the Cards to Memorize!" />
+      <CharacterBubble
+        variant="frost"
+        message="Tap each card to flip it and see the answer! Try to guess before you flip."
+        side="left"
+        className="mb-3"
+      />
       <div className="grid grid-cols-2 max-[480px]:grid-cols-1 gap-3.5 mb-6">
         {data.flashcards.map((fc, i) => (
           <FlipCard key={i} flashcard={fc} />
@@ -105,6 +132,14 @@ export default function LearnContent() {
       {/* Sun Safety */}
       <SectionTitle emoji="☀️" title="Staying Safe in Sunlight" />
       <ConceptCard concept={data.concepts[4]} />
+
+      {/* Tip from sunny */}
+      <CharacterBubble
+        variant="sunny"
+        message="Even in Fortnite, the storm hurts you! In real life, the sun can hurt too — always wear sunscreen!"
+        side="right"
+        className="my-4"
+      />
 
       {/* Colors of Light */}
       <SectionTitle emoji="🌈" title="Colors of Light — Did You Know?" />
@@ -122,10 +157,15 @@ export default function LearnContent() {
         ]}
       />
 
-      {/* CTA */}
+      {/* CTA with character */}
+      <div className="flex items-center justify-center gap-3 mt-6 mb-2">
+        <LegoCharacter variant="galaxy" size="md" />
+        <span className="text-text-dim font-semibold text-sm">Ready to test your skills?</span>
+        <LegoCharacter variant="coral" size="md" />
+      </div>
       <Link
         href="/darsi.app/science/chapter-4-2/quiz/"
-        className="block w-full mt-5 bg-gradient-to-br from-green to-[#2EA043] rounded-sm py-3.5 font-display text-[1.1rem] font-extrabold text-white text-center cursor-pointer shadow-glow-green hover:-translate-y-0.5 transition-transform no-underline"
+        className="block w-full bg-gradient-to-br from-green to-[#2EA043] rounded-sm py-3.5 font-display text-[1.1rem] font-extrabold text-white text-center cursor-pointer shadow-glow-green hover:-translate-y-0.5 transition-transform no-underline"
       >
         Ready? Take the Quiz! 🧠 →
       </Link>

@@ -1,5 +1,7 @@
 'use client'
 
+import LegoCharacter from '@/components/characters/LegoCharacter'
+
 interface ResultScreenProps {
   score: number
   total: number
@@ -50,8 +52,12 @@ export default function ResultScreen({
 
   return (
     <div className="text-center animate-fadeUp">
-      {/* Trophy */}
-      <div className="text-[5rem] animate-bounce mb-2">{getTrophy(score)}</div>
+      {/* Character celebration */}
+      <div className="flex items-end justify-center gap-3 mb-3">
+        <LegoCharacter variant="explorer" size="md" />
+        <div className="text-[5rem] animate-bounce">{getTrophy(score)}</div>
+        <LegoCharacter variant="galaxy" size="md" />
+      </div>
 
       {/* Title */}
       <h2 className="text-2xl font-extrabold font-display text-text mb-1">

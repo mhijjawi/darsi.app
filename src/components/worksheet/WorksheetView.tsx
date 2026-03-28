@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { WorksheetData } from '@/types'
+import { CharacterBubble } from '@/components/characters/LegoCharacter'
 
 interface WorksheetViewProps {
   worksheet: WorksheetData
@@ -52,6 +53,14 @@ export default function WorksheetView({ worksheet, chapterTitle }: WorksheetView
 
   return (
     <div>
+      {/* Character tip */}
+      <CharacterBubble
+        variant="coral"
+        message="Time to grab a pencil! Print this worksheet and show what you've learned, Laith!"
+        side="left"
+        className="mb-4"
+      />
+
       {/* Header Card */}
       <div className="bg-white border border-[--border] rounded-2xl p-6 mb-6 text-center">
         <div className="text-[3rem] mb-2">🖨️</div>

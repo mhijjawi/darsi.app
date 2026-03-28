@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { getFirstChapterPath } from '@/lib/chapters'
+import LegoCharacter from '@/components/characters/LegoCharacter'
 
 export default function LoginPage() {
   const [password, setPassword] = useState('')
@@ -43,7 +44,12 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-bg p-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="text-6xl mb-4">🚀</div>
+          {/* Character crew welcoming Laith */}
+          <div className="flex items-end justify-center gap-3 mb-5">
+            <LegoCharacter variant="explorer" size="md" />
+            <LegoCharacter variant="scientist" size="lg" />
+            <LegoCharacter variant="ninja" size="md" />
+          </div>
           <h1 className="font-display text-4xl font-extrabold text-blue mb-2">Darsi</h1>
           <p className="text-text-dim font-semibold text-sm">
             Laith&apos;s Interactive Study World
@@ -84,9 +90,13 @@ export default function LoginPage() {
           </div>
         </form>
 
-        <p className="text-center text-text-dimmer text-xs font-semibold mt-6">
-          Made with ❤️ for Laith
-        </p>
+        <div className="flex items-center justify-center gap-2 mt-6">
+          <LegoCharacter variant="sunny" size="sm" />
+          <p className="text-text-dimmer text-xs font-semibold">
+            Made with ❤️ for Laith
+          </p>
+          <LegoCharacter variant="coral" size="sm" />
+        </div>
       </div>
     </div>
   )
