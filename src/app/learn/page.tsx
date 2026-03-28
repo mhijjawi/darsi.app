@@ -8,7 +8,7 @@ export default function LearnRedirect() {
   const router = useRouter()
 
   useEffect(() => {
-    router.replace(`/darsi.app${getFirstChapterPath()}/`)
+    router.replace(`${getFirstChapterPath()}/`)
   }, [router])
 
   return (

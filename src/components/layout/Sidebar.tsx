@@ -105,7 +105,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                         { label: 'Quiz Time', section: 'quiz' },
                         { label: 'Printable Worksheet', section: 'worksheet' },
                       ].map((item) => {
-                        const href = `/darsi.app/${subject.id}/${chapter.slug}/${item.section}/`
+                        const href = `/${subject.id}/${chapter.slug}/${item.section}/`
                         const active = isActive(`/${chapter.slug}/${item.section}`)
 
                         return (

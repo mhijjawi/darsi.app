@@ -15,14 +15,14 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!isLoading && isUnlocked) {
-      router.replace(`/darsi.app${getFirstChapterPath()}/`)
+      router.replace(`${getFirstChapterPath()}/`)
     }
   }, [isUnlocked, isLoading, router])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (unlock(password)) {
-      router.replace(`/darsi.app${getFirstChapterPath()}/`)
+      router.replace(`${getFirstChapterPath()}/`)
     } else {
       setError(true)
       setShaking(true)

@@ -21,7 +21,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isLoading && !isUnlocked) {
-      router.replace('/darsi.app/')
+      router.replace('/')
     }
   }, [isUnlocked, isLoading, router])
 
@@ -48,7 +48,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   if (!isUnlocked) return null
 
   // Derive breadcrumb from pathname
-  const pathSuffix = pathname?.replace('/darsi.app', '') || ''
+  // usePathname() returns path without basePath; strip trailing slash for lookup
+  const pathSuffix = pathname?.replace(/\/$/, '') || ''
   const breadcrumb = BREADCRUMBS[pathSuffix] || ''
 
   return (
