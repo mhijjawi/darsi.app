@@ -10,6 +10,7 @@ import LegoCharacter from '@/components/characters/LegoCharacter'
 interface QuizEngineProps {
   questions: Question[]
   onComplete: (score: number) => void
+  onReview?: () => void
 }
 
 interface ResultEntry {
@@ -18,7 +19,7 @@ interface ResultEntry {
   num: number
 }
 
-export default function QuizEngine({ questions, onComplete }: QuizEngineProps) {
+export default function QuizEngine({ questions, onComplete, onReview }: QuizEngineProps) {
   const router = useRouter()
   const total = questions.length
 
@@ -157,7 +158,7 @@ export default function QuizEngine({ questions, onComplete }: QuizEngineProps) {
           total={total}
           results={results}
           onRetry={handleRetry}
-          onReview={() => router.push('/science/chapter-4-2/learn/')}
+          onReview={onReview ?? (() => router.push('/science/chapter-4-2/learn/'))}
         />
       )}
     </div>

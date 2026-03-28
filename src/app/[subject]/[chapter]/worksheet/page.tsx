@@ -5,6 +5,6 @@ export function generateStaticParams() {
   return generateChapterStaticParams()
 }
 
-export default function WorksheetPage() {
-  return <WorksheetContent />
+export default function WorksheetPage({ params }: { params: { chapter: string } }) {
+  return <WorksheetContent chapterSlug={params.chapter} />
 }

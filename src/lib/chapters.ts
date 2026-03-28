@@ -14,6 +14,14 @@ export const SUBJECTS: SubjectMeta[] = [
         emoji: '💡',
         color: 'rgba(88,166,255,0.12)',
       },
+      {
+        id: 'chapter-4-3',
+        subject: 'science',
+        slug: 'chapter-4-3',
+        title: '4.3 Sound',
+        emoji: '🔊',
+        color: 'rgba(8,145,178,0.12)',
+      },
     ],
   },
   {

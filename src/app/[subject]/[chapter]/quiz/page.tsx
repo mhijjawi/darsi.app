@@ -5,6 +5,6 @@ export function generateStaticParams() {
   return generateChapterStaticParams()
 }
 
-export default function QuizPage() {
-  return <QuizContent />
+export default function QuizPage({ params }: { params: { chapter: string } }) {
+  return <QuizContent chapterSlug={params.chapter} />
 }
